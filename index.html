@@ -8,528 +8,529 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-  :root{
-    --bg:#FFF8FB;
-    --card:#ffffff;
-    --accent:#F06292;
-    --accent-2:#7C4DFF;
-    --muted:#5B6270;
-    --text:#111827;
-    --radius:16px;
-    --maxw:980px;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-    background:linear-gradient(180deg,var(--bg),#fff);
-    color:var(--text);
-    display:flex;
-    justify-content:center;
-    padding:28px;
-  }
+/* --- ESTILOS CSS: Mantengo tu CSS original, es robusto y funciona bien. --- */
+  :root{
+    --bg:#FFF8FB;
+    --card:#ffffff;
+    --accent:#F06292;
+    --accent-2:#7C4DFF;
+    --muted:#5B6270;
+    --text:#111827;
+    --radius:16px;
+    --maxw:980px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    background:linear-gradient(180deg,var(--bg),#fff);
+    color:var(--text);
+    display:flex;
+    justify-content:center;
+    padding:28px;
+  }
 
-  .site{
-    width:100%;
-    max-width:var(--maxw);
-    background:var(--card);
-    border-radius:18px;
-    box-shadow:0 18px 60px rgba(20,20,40,0.08);
-    overflow:hidden;
-  }
+  .site{
+    width:100%;
+    max-width:var(--maxw);
+    background:var(--card);
+    border-radius:18px;
+    box-shadow:0 18px 60px rgba(20,20,40,0.08);
+    overflow:hidden;
+  }
 
-  header{
-    padding:28px;
-    border-bottom:1px solid #f1e8ee;
-    background:linear-gradient(90deg,#fff,#fff7fb);
-  }
-  h1{ margin:0 0 6px; font-size:28px; color:var(--accent-2); }
-  .subtitle{ margin:0; color:var(--muted); }
+  header{
+    padding:28px;
+    border-bottom:1px solid #f1e8ee;
+    background:linear-gradient(90deg,#fff,#fff7fb);
+  }
+  h1{ margin:0 0 6px; font-size:28px; color:var(--accent-2); }
+  .subtitle{ margin:0; color:var(--muted); }
 
-  main{ padding:26px; display:block; gap:18px; }
+  main{ padding:26px; display:block; gap:18px; }
 
-  .block{
-    margin-bottom:20px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
+  .block{
+    margin-bottom:20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
 
-  .text{
-    font-size:16px;
-    line-height:1.6;
-    color:var(--text);
-    background:linear-gradient(180deg,#fff,#fff);
-    padding:14px 16px;
-    border-radius:12px;
-  }
+  .text{
+    font-size:16px;
+    line-height:1.6;
+    color:var(--text);
+    background:linear-gradient(180deg,#fff,#fff);
+    padding:14px 16px;
+    border-radius:12px;
+  }
 
-  .imgwrap{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-  }
-  .imgwrap img{
-    border-radius:12px;
-    width:200px;
-    height:200px;
-    object-fit:cover;
-    box-shadow:0 10px 30px rgba(20,20,40,0.06);
-    transition:transform .35s ease, box-shadow .35s ease;
-  }
-  .imgwrap img:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 22px 50px rgba(20,20,40,0.12); }
+  .imgwrap{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .imgwrap img{
+    border-radius:12px;
+    width:200px;
+    height:200px;
+    object-fit:cover;
+    box-shadow:0 10px 30px rgba(20,20,40,0.06);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .imgwrap img:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 22px 50px rgba(20,20,40,0.12); }
 
-  .play-area{
-    display:flex;
-    gap:18px;
-    align-items:center;
-    padding:18px;
-    background:linear-gradient(90deg, rgba(240,240,250,0.6), rgba(255,250,250,0.6));
-    border-radius:12px;
-  }
+  .play-area{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    padding:18px;
+    background:linear-gradient(90deg, rgba(240,240,250,0.6), rgba(255,250,250,0.6));
+    border-radius:12px;
+  }
 
-  .action-btn{
-    background:linear-gradient(180deg,var(--accent),var(--accent-2));
-    color:white;
-    border:none;
-    padding:14px 18px;
-    border-radius:12px;
-    font-weight:700;
-    cursor:pointer;
-    font-size:16px;
-    box-shadow:0 10px 30px rgba(124,77,255,0.18);
-  }
-  .action-btn:active{ transform:translateY(2px); }
+  .action-btn{
+    background:linear-gradient(180deg,var(--accent),var(--accent-2));
+    color:white;
+    border:none;
+    padding:14px 18px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:16px;
+    box-shadow:0 10px 30px rgba(124,77,255,0.18);
+  }
+  .action-btn:active{ transform:translateY(2px); }
 
-  .heart{
-    width:72px;
-    height:72px;
-    display:grid;
-    place-items:center;
-    border-radius:12px;
-    background:rgba(240,240,250,0.6);
-    position:relative;
-    overflow:visible;
-  }
+  .heart{
+    width:72px;
+    height:72px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    background:rgba(240,240,250,0.6);
+    position:relative;
+    overflow:visible;
+  }
 
-  .heart svg{ width:56px; height:56px; transform-origin:center; opacity:0; }
+  .heart svg{ width:56px; height:56px; transform-origin:center; opacity:0; }
 
-  .lyrics{
-    flex:1;
-    min-height:70px;
-    padding:12px;
-    border-radius:10px;
-    background:linear-gradient(180deg,#fff,#fff);
-    box-shadow:inset 0 1px 0 rgba(0,0,0,0.02);
-    font-weight:600;
-    color:var(--muted);
-  }
-  .line{ opacity:0; transform:translateY(6px); transition:all .4s ease; margin:6px 0; color:var(--text) }
+  .lyrics{
+    flex:1;
+    min-height:70px;
+    padding:12px;
+    border-radius:10px;
+    background:linear-gradient(180deg,#fff,#fff);
+    box-shadow:inset 0 1px 0 rgba(0,0,0,0.02);
+    font-weight:600;
+    color:var(--muted);
+  }
+  .line{ opacity:0; transform:translateY(6px); transition:all .4s ease; margin:6px 0; color:var(--text) }
 
-  .line.visible{ opacity:1; transform:translateY(0); }
-  /* --- Letras con gradiente acorde a la paleta --- */
+  .line.visible{ opacity:1; transform:translateY(0); }
+  /* --- Letras con gradiente acorde a la paleta --- */
 .line {
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  font-weight:700;
-  font-size:17px;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.04);
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  font-weight:700;
+  font-size:17px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.04);
 }
-.line.visible { 
-  opacity:1;
-  transform:translateY(0);
-  transition: opacity .45s ease, transform .45s ease;
+.line.visible { 
+  opacity:1;
+  transform:translateY(0);
+  transition: opacity .45s ease, transform .45s ease;
 }
 
 
-  footer{ padding:16px; font-size:13px; color:var(--muted); border-top:1px solid #f3eef3; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  footer{ padding:16px; font-size:13px; color:var(--muted); border-top:1px solid #f3eef3; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 
-  @media (max-width:760px){
-    .imgwrap img{ width:48%; height:140px; }
-    .heart{ width:56px; height:56px; }
-    .heart svg{ width:44px; height:44px; }
-  }
+  @media (max-width:760px){
+    .imgwrap img{ width:48%; height:140px; }
+    .heart{ width:56px; height:56px; }
+    .heart svg{ width:44px; height:44px; }
+  }
 
-  @keyframes heart-pop {
-    0% { transform: scale(0.2); opacity:0; filter:blur(6px); }
-    40% { transform: scale(1.14); opacity:1; filter:blur(0); }
-    70% { transform: scale(.92); }
-    100% { transform: scale(1); opacity:1; }
-  }
+  @keyframes heart-pop {
+    0% { transform: scale(0.2); opacity:0; filter:blur(6px); }
+    40% { transform: scale(1.14); opacity:1; filter:blur(0); }
+    70% { transform: scale(.92); }
+    100% { transform: scale(1); opacity:1; }
+  }
 
-  @keyframes heart-pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.06); }
-    100% { transform: scale(1); }
-  }
+  @keyframes heart-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
 
-  .heart svg.show {
-    animation: heart-pop .55s ease forwards, heart-pulse 1.2s 0.6s ease-in-out infinite;
-  }
+  .heart svg.show {
+    animation: heart-pop .55s ease forwards, heart-pulse 1.2s 0.6s ease-in-out infinite;
+  }
 
-  /* pequeño hint de debug (se muestra si algo falla) */
-  #debugHint { position:fixed; right:12px; bottom:12px; z-index:9999; background:rgba(0,0,0,0.6); color:#fff; padding:8px 10px; border-radius:8px; font-size:13px; display:none; }
-  #debugHint.show { display:block; }
+  /* pequeño hint de debug (se muestra si algo falla) */
+  #debugHint { position:fixed; right:12px; bottom:12px; z-index:9999; background:rgba(0,0,0,0.6); color:#fff; padding:8px 10px; border-radius:8px; font-size:13px; display:none; }
+  #debugHint.show { display:block; }
 </style>
 </head>
 <body>
-  <div class="site" id="site">
-    <header>
-      <h1 id="pageTitle">Para mi persona favorita</h1>
-      <p class="subtitle" id="pageSub">Espero que te guste</p>
-    </header>
+  <div class="site" id="site">
+    <header>
+      <h1 id="pageTitle">Para mi persona favorita</h1>
+      <p class="subtitle" id="pageSub">Espero que te guste</p>
+    </header>
 
-    <main id="mainContent">
+    <main id="mainContent">
 
-      <section class="block">
-        <div class="text" id="para1">
-          Nunca crei encontrar una persona con la cual puedo llegar a ser yo mismo sin sentir pena o verguenza pues de todas las casualidades del Universo, la mejor fue coincidir cotigo, y nosotros siempre seremos como:
-        </div>
-      </section>
+      <section class="block">
+        <div class="text" id="para1">
+          Nunca creí encontrar una persona con la cual puedo llegar a ser yo mismo sin sentir pena o vergüenza, pues de todas las casualidades del Universo, la mejor fue coincidir **contigo**, y nosotros siempre seremos como:
+        </div>
+      </section>
 
-      <section class="block">
-        <div class="imgwrap" id="imgs1">
-          <img src="https://images5.alphacoders.com/132/1326575.png" alt="imagen1">
-        </div>
-      </section>
+      <section class="block">
+        <div class="imgwrap" id="imgs1">
+          <img src="https://images5.alphacoders.com/132/1326575.png" alt="imagen1">
+        </div>
+      </section>
 
-      <section class="block">
-        <div class="text" id="para2">
-          A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mi eres muy importante y no puedo imaginar mi dia dia sin hablar contigo
-        </div>
-      </section>
+      <section class="block">
+        <div class="text" id="para2">
+          A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mí eres muy importante y no puedo imaginar mi día **a** día sin hablar contigo.
+        </div>
+      </section>
 
-      <section class="block">
-        <div class="imgwrap" id="imgs2">
-          <img src="https://i.pinimg.com/736x/57/56/cf/5756cf550e06ceaa5ed63526d59d9af0.jpg" alt="imagen2">
-          <img src="https://i.pinimg.com/280x280_RS/b3/40/e7/b340e7fe543acb710569dcbfe776bafe.jpg" alt="imagen3">
-        </div>
-      </section>
+      <section class="block">
+        <div class="imgwrap" id="imgs2">
+          <img src="https://i.pinimg.com/736x/57/56/cf/5756cf550e06ceaa5ed63526d59d9af0.jpg" alt="imagen2">
+          <img src="https://i.pinimg.com/280x280_RS/b3/40/e7/b340e7fe543acb710569dcbfe776bafe.jpg" alt="imagen3">
+        </div>
+      </section>
 
-      <section class="block">
-        <div class="text" id="para3">
-          Aunque aun me falte mucho mas que aprender o conocer sobre ti, siempre me encatara la idea de saber las cosas que te hacen reir, llorar, las cosas que te preocupan, tus problemas, tus sueños, y mucho mas
-          <br><br>
-          Espero que en este nuevo año sigamos hablando como siempre, y nunca separarnos por un 2026 lleno de nuevas Historias
-        </div>
-      </section>
+      <section class="block">
+        <div class="text" id="para3">
+          Aunque aún me falte mucho más que aprender o conocer sobre ti, siempre me **encantará** la idea de saber las cosas que te hacen reír, llorar, las cosas que te preocupan, tus problemas, tus sueños, y mucho más.
+          <br><br>
+          Espero que en este nuevo año sigamos hablando como siempre, y nunca separarnos por un **2026** lleno de nuevas Historias.
+        </div>
+      </section>
 
-      <section class="block">
-        <div class="imgwrap" id="imgs3">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4CYoBDZu6Cd8eag_bUXe-coZBeHFgXa6xAr1_wSnn56ql_IO_T2BQJ6vcQ5MS_GMOcrw" alt="imagen4">
-        </div>
-      </section>
+      <section class="block">
+        <div class="imgwrap" id="imgs3">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4CYoBDZu6Cd8eag_bUXe-coZBeHFgXa6xAr1_wSnn56ql_IO_T2BQJ6vcQ5MS_GMOcrw" alt="imagen4">
+        </div>
+      </section>
 
-      <section class="block">
-        <div class="play-area">
-          <div class="heart" id="heartBox" title="Se mostrará un corazón">
-            <svg id="heartSvg" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path fill="url(#g)" d="M23.6 0c-2.7 0-5 1.5-6.6 3.8C15.4 1.5 13.1 0 10.4 0 4.7 0 0 4.8 0 10.8 0 18.6 9.6 23.6 16 29.6c6.4-6 16-11 16-18.8C32 4.8 27.3 0 21.6 0z"/>
-              <defs>
-                <linearGradient id="g" x1="0" x2="1">
-                  <stop offset="0" stop-color="#ff5a97"/>
-                  <stop offset="1" stop-color="#7C4DFF"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
+      <section class="block">
+        <div class="play-area">
+          <div class="heart" id="heartBox" title="Se mostrará un corazón">
+            <svg id="heartSvg" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill="url(#g)" d="M23.6 0c-2.7 0-5 1.5-6.6 3.8C15.4 1.5 13.1 0 10.4 0 4.7 0 0 4.8 0 10.8 0 18.6 9.6 23.6 16 29.6c6.4-6 16-11 16-18.8C32 4.8 27.3 0 21.6 0z"/>
+              <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                  <stop offset="0" stop-color="#ff5a97"/>
+                  <stop offset="1" stop-color="#7C4DFF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
 
-          <button class="action-btn" id="playBtn">Apreta aquí</button>
+          <button class="action-btn" id="playBtn">Apreta aquí</button>
 
-          <div class="lyrics" id="lyricsBox">
-            <div id="linesContainer"></div>
-          </div>
-        </div>
+          <div class="lyrics" id="lyricsBox">
+            <div id="linesContainer"></div>
+          </div>
+        </div>
 
-        <audio id="track" preload="metadata">
-          <source id="audioSrc" src="https://ejemplo.com/mister-loverman.mp3" type="audio/mpeg">
-          Tu navegador no soporta reproducción de audio.
-        </audio>
+        <audio id="track" preload="metadata">
+          <source id="audioSrc" src="https://ejemplo.com/mister-loverman.mp3" type="audio/mpeg">
+          Tu navegador no soporta reproducción de audio.
+        </audio>
 
-      </section>
+      </section>
 
-    </main>
+    </main>
 
-    <footer>
-      <div>Hecho con ❤️</div>
-      <div style="font-size:12px;color:var(--muted)">Alemi</div>
-    </footer>
-  </div>
+    <footer>
+      <div>Hecho con ❤️</div>
+      <div style="font-size:12px;color:var(--muted)">Alemi</div>
+    </footer>
+  </div>
 
-  <div id="debugHint" role="status" aria-live="polite"></div>
+  <div id="debugHint" role="status" aria-live="polite"></div>
 
 <script>
-  
+  /* ---------------------------------------------------- */
+  /* --- CONFIGURACIÓN Y DATOS DE LAS LETRAS (CORREGIDO) --- */
+  /* ---------------------------------------------------- */
+  // Pega raw URL del mp3 en RAW_GITHUB_URL_OVERRIDE si prefieres: (he puesto tu URL con espacios codificados)
+  const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
+
+  // si subiste el mp3 al repo en la raíz con otro nombre, ponlo aquí
+  const DEFAULT_AUDIO_FILENAME = 'mister-loverman.mp3';
+
+  // retardo entre líneas si no usás timestamps (ms)
+  const defaultDelayBetweenLines = 2000;
+
+  // LETRAS (si querés timestamps, añadilos en cada objeto como time: segundos)
+  const lyricsData = [
+    { text: "I'm headed straight for the floor" },
+    { text: "The alcohol served its tour" },
+    { text: "And it's headed straight for my skin" },
+    { text: "Leaving me daft and dim" },
+    { text: "I've got this shake in my legs" },
+    { text: "Shaking the thoughts from my head" },
+    { text: "But who put these waves in the door?" },
+    { text: "I crack and out I pour" },
+    { text: "I'm Mr. Loverman" },
+    { text: "And I miss my lover, man" },
+    { text: "I'm Mr. Loverman" },
+    { text: "Oh, and I miss my lover" },
+    { text: "The ways in which you talk to me" },
+    { text: "Have me wishin' I were gone" },
+    { text: "The ways that you say my name" },
+    { text: "Have me runnin' on and on" },
+    { text: "Oh, I'm cramping up, I'm cramping up" },
+    { text: "But you're cracking up, you're cracking up" },
+    { text: "I'm Mr. Loverman" },
+    { text: "And I miss my loverman" },
+    { text: "I'm Mr. Loverman" },
+    { text: "Oh, and I miss my lover" },
+    { text: "I've shattered now, I'm spilling out" },
+    { text: "Upon this linoleum ground (Mr. Loverman)" },
+    { text: "I'm reeling in my brain again" },
+    { text: "Before it can get back to you (Mr. Loverman)" },
+    { text: "Oh, what am I supposed to do without you?" },
+    { text: "I'm Mr. Loverman" },
+    { text: "And I miss my lover, man (I miss my lover)" },
+    { text: "I'm Mr. Loverman (oh-oh)" },
+    { text: "Oh, and I miss my lover (Mr. Loverman)" },
+    { text: "I'm Mr. Loverman" }
+  ];
+  /* ---------------------------------------------------- */
+  /* --- LÓGICA JS (Tu lógica original, ahora usando las variables definidas arriba) --- */
+  /* ---------------------------------------------------- */
+
 (function(){
-  /* === CONFIG === */
-  const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
-  const DEFAULT_AUDIO_FILENAME = 'mister-loverman.mp3';
-  const defaultDelayBetweenLines = 2000; // ms si no hay timestamps
+  // El código JavaScript de la lógica principal se mantiene intacto,
+  // pero ahora accede a las constantes definidas justo arriba.
 
-  /* === DATOS (ya los tenés en el HTML) ===
-     Si quieres editar la letra aquí, actualiza `lyricsData` (cada objeto puede tener time en segundos).
-  */
-  const lyricsData = window.LYRICS_DATA || [
-    /* si ya pegaste en el HTML, la variable window.LYRICS_DATA contendrá los objetos. 
-       Sino puedes dejar aquí el array nuevamente. */
-  ];
+  /* === DOM refs === */
+  const btn = document.getElementById('playBtn');
+  const heartSvg = document.getElementById('heartSvg');
+  const audioEl = document.getElementById('track');
+  const audioSrc = document.getElementById('audioSrc');
+  const linesContainer = document.getElementById('linesContainer');
+  const debugEl = document.getElementById('debugHint');
 
-  /* === DOM refs === */
-  const btn = document.getElementById('playBtn');
-  const heartSvg = document.getElementById('heartSvg');
-  const audioEl = document.getElementById('track');
-  const audioSrc = document.getElementById('audioSrc');
-  const linesContainer = document.getElementById('linesContainer');
-  const debugEl = document.getElementById('debugHint');
+  // Aseguramos que 'window.LYRICS_DATA' apunte a la variable local para que el código lo use si es necesario (aunque tu código usa lyricsData directamente)
+  if (typeof window.LYRICS_DATA === 'undefined') {
+    window.LYRICS_DATA = lyricsData;
+  }
 
-  /* --- util debug en pantalla --- */
-  function showDebug(msg, isError){
-    if(!debugEl) return;
-    debugEl.textContent = msg;
-    debugEl.classList.add('show');
-    debugEl.style.background = isError ? 'rgba(160,20,20,0.9)' : 'rgba(0,0,0,0.6)';
-    setTimeout(()=> debugEl.classList.remove('show'), 5000);
-    console[isError?'error':'log']('[PAGE]', msg);
-  }
+  /* --- util debug en pantalla --- */
+  function showDebug(msg, isError){
+    if(!debugEl) return;
+    debugEl.textContent = msg;
+    debugEl.classList.add('show');
+    debugEl.style.background = isError ? 'rgba(160,20,20,0.9)' : 'rgba(0,0,0,0.6)';
+    setTimeout(()=> debugEl.classList.remove('show'), 5000);
+    console[isError?'error':'log']('[PAGE]', msg);
+  }
 
-  /* --- detectar/cargar audio --- */
-  function buildRawGuess(){
-    try {
-      const host = location.hostname;
-      let user = null;
-      if (host.endsWith('github.io')) user = host.split('.')[0];
-      const pathParts = location.pathname.split('/').filter(Boolean);
-      const repoGuess = pathParts[0] || (user ? user + '.github.io' : null);
-      if(user && repoGuess){
-        return 'https://raw.githubusercontent.com/' + user + '/' + repoGuess + '/main/' + DEFAULT_AUDIO_FILENAME;
-      }
-    } catch(e){}
-    return '';
-  }
+  /* --- detectar/cargar audio --- */
+  function buildRawGuess(){
+    try {
+      const host = location.hostname;
+      let user = null;
+      if (host.endsWith('github.io')) user = host.split('.')[0];
+      const pathParts = location.pathname.split('/').filter(Boolean);
+      const repoGuess = pathParts[0] || (user ? user + '.github.io' : null);
+      if(user && repoGuess){
+        return 'https://raw.githubusercontent.com/' + user + '/' + repoGuess + '/main/' + DEFAULT_AUDIO_FILENAME;
+      }
+    } catch(e){}
+    return '';
+  }
 
-  function detectAudioSrc(){
-    if (RAW_GITHUB_URL_OVERRIDE && RAW_GITHUB_URL_OVERRIDE.trim().length>0) return RAW_GITHUB_URL_OVERRIDE;
-    if (audioSrc && audioSrc.getAttribute('data-src') && audioSrc.getAttribute('data-src').trim().length>0) return audioSrc.getAttribute('data-src');
-    if (audioSrc && audioSrc.src && audioSrc.src.trim().length>0) return audioSrc.src;
-    const guess = buildRawGuess();
-    if (guess) return guess;
-    return '';
-  }
+  function detectAudioSrc(){
+    if (RAW_GITHUB_URL_OVERRIDE && RAW_GITHUB_URL_OVERRIDE.trim().length>0) return RAW_GITHUB_URL_OVERRIDE;
+    if (audioSrc && audioSrc.getAttribute('data-src') && audioSrc.getAttribute('data-src').trim().length>0) return audioSrc.getAttribute('data-src');
+    if (audioSrc && audioSrc.src && audioSrc.src.trim().length>0 && !audioSrc.src.includes('ejemplo.com')) return audioSrc.src;
+    const guess = buildRawGuess();
+    if (guess) return guess;
+    return '';
+  }
 
-  (function setAudio(){
-    const src = detectAudioSrc();
-    if (src && src.trim().length>0){
-      if(audioSrc){
-        audioSrc.setAttribute('data-src', src);
-        audioSrc.src = src;
-        try { audioEl.load(); } catch(e){ console.warn('audio load failed', e); }
-        showDebug('Audio cargado.');
-      }
-    } else {
-      showDebug('No se encontró audio: subí mp3 o pon la URL raw en CONFIG.', true);
-    }
-  })();
+  (function setAudio(){
+    const src = detectAudioSrc();
+    if (src && src.trim().length>0){
+      if(audioSrc){
+        audioSrc.setAttribute('data-src', src);
+        audioSrc.src = src;
+        try { audioEl.load(); } catch(e){ console.warn('audio load failed', e); }
+        showDebug('Audio cargado.');
+      }
+    } else {
+      showDebug('No se encontró audio: subí mp3 o pon la URL raw en CONFIG.', true);
+    }
+  })();
 
-  /* === preparar y pintar líneas === */
-  function setupLines(lines){
-    linesContainer.innerHTML = '';
-    const arr = Array.isArray(lines) && lines.length ? lines : window.LYRICS_DATA || [];
-    if(!arr || arr.length===0){
-      const hint = document.createElement('div');
-      hint.style.opacity = .6;
-      hint.textContent = 'Pega las líneas en lyricsData para que aparezcan aquí (pueden incluir time en segundos).';
-      linesContainer.appendChild(hint);
-      return;
-    }
-    arr.forEach((ln, idx) => {
-      const d = document.createElement('div');
-      d.className = 'line';
-      d.dataset.idx = idx;
-      d.textContent = ln.text || '';
-      // fallback color for browsers that don't support background-clip text
-      d.style.color = 'var(--accent)';
-      linesContainer.appendChild(d);
-    });
-  }
-  setupLines(lyricsData);
+  /* === preparar y pintar líneas === */
+  function setupLines(lines){
+    linesContainer.innerHTML = '';
+    const arr = Array.isArray(lines) && lines.length ? lines : window.LYRICS_DATA || [];
+    if(!arr || arr.length===0){
+      const hint = document.createElement('div');
+      hint.style.opacity = .6;
+      hint.textContent = 'Pega las líneas en lyricsData para que aparezcan aquí (pueden incluir time en segundos).';
+      linesContainer.appendChild(hint);
+      return;
+    }
+    arr.forEach((ln, idx) => {
+      const d = document.createElement('div');
+      d.className = 'line';
+      d.dataset.idx = idx;
+      d.textContent = ln.text || '';
+      // fallback color for browsers that don't support background-clip text
+      d.style.color = 'var(--accent)';
+      linesContainer.appendChild(d);
+    });
+  }
+  setupLines(lyricsData);
 
-  /* === animaciones === */
-  function animateHeart(){
-    if(!heartSvg) return;
-    heartSvg.classList.remove('show');
-    void heartSvg.offsetWidth;
-    heartSvg.classList.add('show');
-  }
+  /* === animaciones === */
+  function animateHeart(){
+    if(!heartSvg) return;
+    heartSvg.classList.remove('show');
+    void heartSvg.offsetWidth;
+    heartSvg.classList.add('show');
+  }
 
-  function showLine(i){
-    const ln = document.querySelector('.line[data-idx="'+i+'"]');
-    if(ln) ln.classList.add('visible');
-  }
+  function showLine(i){
+    const ln = document.querySelector('.line[data-idx="'+i+'"]');
+    if(ln) ln.classList.add('visible');
+  }
 
-  function revealSequentialByInterval(intervalMs){
-    const nodes = Array.from(document.querySelectorAll('.line'));
-    nodes.forEach((el, idx) => {
-      setTimeout(()=> el.classList.add('visible'), Math.max(0, Math.round(idx * intervalMs)));
-    });
-  }
+  function revealSequentialByInterval(intervalMs){
+    const nodes = Array.from(document.querySelectorAll('.line'));
+    nodes.forEach((el, idx) => {
+      setTimeout(()=> el.classList.add('visible'), Math.max(0, Math.round(idx * intervalMs)));
+    });
+  }
 
-  function revealByTimestampsFromArray(arr){
-    // asume que arr entries have .time in seconds
-    document.querySelectorAll('.line').forEach(x=> x.classList.remove('visible'));
-    audioEl.addEventListener('timeupdate', function timestampHandler(){
-      const t = audioEl.currentTime;
-      arr.forEach((ln, idx) => {
-        if (ln.time !== undefined && t >= ln.time){
-          const el = document.querySelector('.line[data-idx="'+idx+'"]');
-          if (el && !el.classList.contains('visible')) el.classList.add('visible');
-        }
-      });
-    });
-  }
+  function revealByTimestampsFromArray(arr){
+    // asume que arr entries have .time in seconds
+    document.querySelectorAll('.line').forEach(x=> x.classList.remove('visible'));
+    audioEl.addEventListener('timeupdate', function timestampHandler(){
+      const t = audioEl.currentTime;
+      arr.forEach((ln, idx) => {
+        if (ln.time !== undefined && t >= ln.time){
+          const el = document.querySelector('.line[data-idx="'+idx+'"]');
+          if (el && !el.classList.contains('visible')) el.classList.add('visible');
+        }
+      });
+    });
+  }
 
-  /* === click handler robusto === */
-  if(!btn){ showDebug('Botón no encontrado (id="playBtn")', true); console.error('playBtn missing'); return; }
-  if(!audioEl){ showDebug('Elemento audio no encontrado (id="track")', true); console.error('audio missing'); return; }
+  /* === click handler robusto === */
+  if(!btn){ showDebug('Botón no encontrado (id="playBtn")', true); console.error('playBtn missing'); return; }
+  if(!audioEl){ showDebug('Elemento audio no encontrado (id="track")', true); console.error('audio missing'); return; }
 
-  btn.addEventListener('click', async function(){
-    btn.disabled = true;
-    btn.style.opacity = '0.85';
+  btn.addEventListener('click', async function(){
+    btn.disabled = true;
+    btn.style.opacity = '0.85';
 
-    // 1) animar corazón
-    animateHeart();
+    // 1) animar corazón
+    animateHeart();
 
-    // breve pausa para que el corazón aparezca antes de empezar audio/letras
-    await new Promise(r=> setTimeout(r, 420));
+    // breve pausa para que el corazón aparezca antes de empezar audio/letras
+    await new Promise(r=> setTimeout(r, 420));
 
-    // 2) intentar reproducir audio
-    const hasAudio = audioEl && audioEl.src && audioEl.src.trim().length>0;
-    if (hasAudio){
-      // asegurarnos de tener duration; si no, esperar loadedmetadata
-      if (!audioEl.duration || isNaN(audioEl.duration) || audioEl.duration === Infinity){
-        await new Promise(resolve => {
-          const onMeta = ()=> { audioEl.removeEventListener('loadedmetadata', onMeta); resolve(); };
-          audioEl.addEventListener('loadedmetadata', onMeta);
-          // timeout safety 3s
-          setTimeout(resolve, 3000);
-        });
-      }
+    // 2) intentar reproducir audio
+    const hasAudio = audioEl && audioEl.src && audioEl.src.trim().length>0 && !audioEl.src.includes('ejemplo.com');
+    if (hasAudio){
+      // asegurarnos de tener duration; si no, esperar loadedmetadata
+      if (!audioEl.duration || isNaN(audioEl.duration) || audioEl.duration === Infinity){
+        await new Promise(resolve => {
+          const onMeta = ()=> { audioEl.removeEventListener('loadedmetadata', onMeta); resolve(); };
+          audioEl.addEventListener('loadedmetadata', onMeta);
+          // timeout safety 3s
+          setTimeout(resolve, 3000);
+        });
+      }
 
-      try {
-        audioEl.currentTime = 0;
-      } catch(e){ /* ignore */ }
+      try {
+        audioEl.currentTime = 0;
+      } catch(e){ /* ignore */ }
 
-      try {
-        const playPromise = audioEl.play();
-        if (playPromise !== undefined) await playPromise;
-        showDebug('Audio reproduciéndose...');
-      } catch(err){
-        console.warn('Play rejected:', err);
-        showDebug('No se pudo reproducir audio (ver consola). Mostrando letras igualmente.', true);
-        // mostrar letras aunque no pueda sonar
-        const arr = lyricsData.length ? lyricsData : (window.LYRICS_DATA || []);
-        if (arr.length){
-          const interval = defaultDelayBetweenLines;
-          revealSequentialByInterval(interval);
-        }
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        return;
-      }
+      try {
+        const playPromise = audioEl.play();
+        if (playPromise !== undefined) await playPromise;
+        showDebug('Audio reproduciéndose...');
+      } catch(err){
+        console.warn('Play rejected:', err);
+        showDebug('No se pudo reproducir audio (ver consola). Mostrando letras igualmente.', true);
+        // mostrar letras aunque no pueda sonar
+        const arr = lyricsData.length ? lyricsData : (window.LYRICS_DATA || []);
+        if (arr.length){
+          const interval = defaultDelayBetweenLines;
+          revealSequentialByInterval(interval);
+        }
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        return;
+      }
 
-      // si tenemos timestamps en lyricsData, usar esos
-      const arr = (lyricsData && lyricsData.length) ? lyricsData : (window.LYRICS_DATA || []);
-      const hasTimes = arr.some(x => x && x.time !== undefined);
+      // si tenemos timestamps en lyricsData, usar esos
+      const arr = (lyricsData && lyricsData.length) ? lyricsData : (window.LYRICS_DATA || []);
+      const hasTimes = arr.some(x => x && x.time !== undefined);
 
-      if (hasTimes){
-        revealByTimestampsFromArray(arr);
-      } else {
-        // usar duración del audio para calcular intervalos automáticos
-        const totalDuration = audioEl.duration && !isNaN(audioEl.duration) ? audioEl.duration : null;
-        const linesCount = document.querySelectorAll('.line').length || arr.length || 1;
-        if (totalDuration && linesCount>0){
-          const intervalMs = Math.max(300, Math.floor((totalDuration * 1000) / linesCount));
-          revealSequentialByInterval(intervalMs);
-        } else {
-          // fallback: retardo fijo
-          revealSequentialByInterval(defaultDelayBetweenLines);
-        }
-      }
+      if (hasTimes){
+        revealByTimestampsFromArray(arr);
+      } else {
+        // usar duración del audio para calcular intervalos automáticos
+        const totalDuration = audioEl.duration && !isNaN(audioEl.duration) ? audioEl.duration : null;
+        const linesCount = document.querySelectorAll('.line').length || arr.length || 1;
+        if (totalDuration && linesCount>0){
+          const intervalMs = Math.max(300, Math.floor((totalDuration * 1000) / linesCount));
+          revealSequentialByInterval(intervalMs);
+        } else {
+          // fallback: retardo fijo
+          revealSequentialByInterval(defaultDelayBetweenLines);
+        }
+      }
 
-    } else {
-      // no hay audio: mostrar letras con retardo fijo
-      showDebug('No hay audio configurado — mostrando texto solamente.');
-      const arr = lyricsData.length ? lyricsData : (window.LYRICS_DATA || []);
-      if (arr.length) revealSequentialByInterval(defaultDelayBetweenLines);
-    }
+    } else {
+      // no hay audio: mostrar letras con retardo fijo
+      showDebug('No hay audio configurado — mostrando texto solamente.');
+      const arr = lyricsData.length ? lyricsData : (window.LYRICS_DATA || []);
+      if (arr.length) revealSequentialByInterval(defaultDelayBetweenLines);
+    }
 
-    // re-enable button después de un rato
-    setTimeout(()=> { btn.disabled=false; btn.style.opacity='1'; }, 3000);
-  });
+    // re-enable button después de un rato
+    setTimeout(()=> { btn.disabled=false; btn.style.opacity='1'; }, 3000);
+  });
 
-  /* === debug helpers === */
-  window.__pageDebug = {
-    check: ()=> ({
-      btn: !!document.getElementById('playBtn'),
-      heart: !!document.getElementById('heartSvg'),
-      audioSrc: document.getElementById('audioSrc')?.src || '',
-      lines: document.querySelectorAll('.line').length,
-      duration: document.getElementById('track')?.duration || 0
-    }),
-    playAudioNow: ()=> document.getElementById('track')?.play().catch(e=>console.error('play error', e))
-  };
+  /* === debug helpers === */
+  window.__pageDebug = {
+    check: ()=> ({
+      btn: !!document.getElementById('playBtn'),
+      heart: !!document.getElementById('heartSvg'),
+      audioSrc: document.getElementById('audioSrc')?.src || '',
+      lines: document.querySelectorAll('.line').length,
+      duration: document.getElementById('track')?.duration || 0
+    }),
+    playAudioNow: ()=> document.getElementById('track')?.play().catch(e=>console.error('play error', e))
+  };
 
-  console.log('SCRIPT listo. Usa window.__pageDebug.check() para diagnosticar.');
-  showDebug('Script listo — apretá el botón.');
+  console.log('SCRIPT listo. Usa window.__pageDebug.check() para diagnosticar.');
+  showDebug('Script listo — apretá el botón.');
 
 })();
 </script>
-
-/* --- CONFIG: aquí pegué tu URL raw y la letra tal como la mandaste --- */
-
-// Pega raw URL del mp3 en RAW_GITHUB_URL_OVERRIDE si prefieres: (he puesto tu URL con espacios codificados)
-const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
-
-// si subiste el mp3 al repo en la raíz con otro nombre, ponlo aquí
-const DEFAULT_AUDIO_FILENAME = 'mister-loverman.mp3';
-
-// retardo entre líneas si no usás timestamps (ms)
-const defaultDelayBetweenLines = 2000;
-
-// LETRAS tal como las pegaste (si querés timestamps, añadilos en cada objeto como time: segundos)
-const lyricsData = [
- { text: "I'm headed straight for the floor" },
-  { text: "The alcohol served its tour" },
-  { text: "And it's headed straight for my skin" },
-  { text: "Leaving me daft and dim" },
-  { text: "I've got this shake in my legs" },
-  { text: "Shaking the thoughts from my head" },
-  { text: "But who put these waves in the door?" },
-  { text: "I crack and out I pour" },
-  { text: "I'm Mr. Loverman" },
-  { text: "And I miss my lover, man" },
-  { text: "I'm Mr. Loverman" },
-  { text: "Oh, and I miss my lover" },
-  { text: "The ways in which you talk to me" },
-  { text: "Have me wishin' I were gone" },
-  { text: "The ways that you say my name" },
-  { text: "Have me runnin' on and on" },
-  { text: "Oh, I'm cramping up, I'm cramping up" },
-  { text: "But you're cracking up, you're cracking up" },
-  { text: "I'm Mr. Loverman" },
-  { text: "And I miss my loverman" },
-  { text: "I'm Mr. Loverman" },
-  { text: "Oh, and I miss my lover" },
-  { text: "I've shattered now, I'm spilling out" },
-  { text: "Upon this linoleum ground (Mr. Loverman)" },
-  { text: "I'm reeling in my brain again" },
-  { text: "Before it can get back to you (Mr. Loverman)" },
-  { text: "Oh, what am I supposed to do without you?" },
-  { text: "I'm Mr. Loverman" },
-  { text: "And I miss my lover, man (I miss my lover)" },
-  { text: "I'm Mr. Loverman (oh-oh)" },
-  { text: "Oh, and I miss my lover (Mr. Loverman)" },
-  { text: "I'm Mr. Loverman (oh
-::contentReference[oaicite:0]{index=0}
+</body>
+</html>
