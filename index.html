@@ -267,7 +267,7 @@
 <script>
 /* ================= CONFIG y DATOS ================= */
 
-// URL exacta de tu archivo de música en GitHub
+// Mantener la URL como referencia, aunque el elemento <audio> ya la tiene.
 const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
 const defaultDelayBetweenLines = 2000; // ms fallback
 
@@ -308,13 +308,13 @@ const lyricsData = [
 ];
 
 
-(function(){ // 👈 Función anónima autoejecutable
+(function(){ // Función anónima autoejecutable
 
   /* === DOM refs === */
   const btn = document.getElementById('playBtn');
   const heartSvg = document.getElementById('heartSvg');
   const audioEl = document.getElementById('track');
-  const audioSrc = document.getElementById('audioSrc');
+  // const audioSrc = document.getElementById('audioSrc'); // ELIMINADO
   const linesContainer = document.getElementById('linesContainer');
   const debugEl = document.getElementById('debugHint');
   
@@ -329,18 +329,7 @@ const lyricsData = [
   }
 
   /* --- configurar y cargar audio --- */
-  (function setAudio(){
-    const src = RAW_GITHUB_URL_OVERRIDE;
-    if (src && src.trim().length>0){
-      if(audioSrc){
-        audioSrc.src = src;
-        try { audioEl.load(); } catch(e){ console.warn('audio load failed', e); }
-        showDebug('Audio cargado y listo.');
-      }
-    } else {
-      showDebug('Error: URL de audio no definida.', true);
-    }
-  })();
+  // LA FUNCIÓN setAudio() FUE ELIMINADA PARA EVITAR CONFLICTOS DE CARGA.
   
   /* === preparar y pintar líneas === */
   function setupLines(lines){
@@ -409,29 +398,26 @@ const lyricsData = [
     btn.disabled = true;
     btn.style.opacity = '0.85';
 
-    // 1) Animación del corazón
-    animateHeart();
-
-    await new Promise(r=> setTimeout(r, 420));
-
-    const hasValidSrc = audioEl.src && audioEl.src.trim().length > 0 && !audioEl.src.includes('ejemplo.com');
+    // 1) Comprobación de la fuente de audio (simplificada)
+    // Comprobamos que audioEl.currentSrc o audioEl.src tiene una URL que no está vacía.
+    const hasValidSrc = audioEl.currentSrc && audioEl.currentSrc.length > 5 || audioEl.src && audioEl.src.length > 5;
     
     if (hasValidSrc){
       
-      // Esperar a que el audio esté listo
-      if (audioEl.readyState < 2){
-        await new Promise(resolve => {
-          const onMeta = ()=> { audioEl.removeEventListener('loadeddata', onMeta); resolve(); };
-          audioEl.addEventListener('loadeddata', onMeta);
-          setTimeout(resolve, 4000); // Timeout de 4 segundos
-        });
-      }
-
       try { 
+        // Se prioriza la reproducción al clic para evitar el bloqueo de Autoplay.
         audioEl.currentTime = 0; // Reiniciar
         const playPromise = audioEl.play();
-        if (playPromise !== undefined) await playPromise;
+        
+        if (playPromise !== undefined) {
+          await playPromise;
+        }
+
         showDebug('Audio reproduciéndose. Letras sincronizadas.');
+        
+        // 2) Animación del corazón (la movemos AHORA, después de que el audio empieza a sonar)
+        animateHeart();
+        await new Promise(r=> setTimeout(r, 420));
         
         // 3) Muestra las letras con los timestamps exactos
         const arr = lyricsData;
@@ -440,21 +426,21 @@ const lyricsData = [
         if (hasTimes){
           revealByTimestampsFromArray(arr);
         } else {
-          // Fallback (No debería suceder con los datos corregidos)
-          const intervalMs = defaultDelayBetweenLines;
-          revealSequentialByInterval(intervalMs);
+          // Fallback (No debería suceder)
+          revealSequentialByInterval(defaultDelayBetweenLines);
         }
 
       } catch(err){
         console.error('Error de reproducción:', err);
         showDebug('No se pudo reproducir audio (Autoplay bloqueado). Mostrando letras automáticas.', true);
         // Si falla la reproducción, se muestra el texto automáticamente
+        animateHeart();
         revealSequentialByInterval(defaultDelayBetweenLines);
       }
 
     } else {
       // No hay audio: solo muestra letras con retardo fijo
-      showDebug('No hay audio configurado — mostrando texto solamente.');
+      showDebug('Error: No se detectó una fuente de audio válida en el elemento.', true);
       revealSequentialByInterval(defaultDelayBetweenLines);
     }
 
@@ -464,7 +450,7 @@ const lyricsData = [
 
   showDebug('Script cargado y listo — pulsa el botón.');
 
-})(); // 👈 CIERRE CORRECTO DE LA FUNCIÓN
+})(); // CIERRE CORRECTO DE LA FUNCIÓN
 </script>
   </body>
 </html>
