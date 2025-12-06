@@ -127,23 +127,23 @@
   .line{ opacity:0; transform:translateY(6px); transition:all .4s ease; margin:6px 0; color:var(--text) }
 
   .line.visible{ opacity:1; transform:translateY(0); }
-  /* --- Letras con gradiente acorde a la paleta --- */
-.line {
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  font-weight:700;
-  font-size:17px;
-  text-shadow: 0 1px 0 rgba(0,0,0,0.04);
-}
-.line.visible { 
-  opacity:1;
-  transform:translateY(0);
-  transition: opacity .45s ease, transform .45s ease;
-}
-
+  
+  /* FIX ESTILO: Aplica el color degradado a las letras usando tus variables */
+  .line {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    font-weight:700;
+    font-size:17px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.04);
+  }
+  .line.visible { 
+    opacity:1;
+    transform:translateY(0);
+    transition: opacity .45s ease, transform .45s ease;
+  }
 
   footer{ padding:16px; font-size:13px; color:var(--muted); border-top:1px solid #f3eef3; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 
@@ -152,13 +152,13 @@
     .heart{ width:56px; height:56px; }
     .heart svg{ width:44px; height:44px; }
   }
-  /* FIX IMAGENES: Regla adicional para que las imágenes únicas grandes se vean bien en móvil */
+
+  /* FIX IMAGENES: Regla para que las imágenes únicas anchas se adapten en móvil */
   @media (max-width: 480px) {
     .imgwrap img:only-child {
       width: 100%;
       height: auto;
       max-width: 100%;
-      object-fit: contain; /* Para que la imagen se vea completa si es muy ancha */
     }
   }
 
@@ -179,9 +179,10 @@
     animation: heart-pop .55s ease forwards, heart-pulse 1.2s 0.6s ease-in-out infinite;
   }
 
-  /* pequeño hint de debug (se muestra si algo falla) */
+  /* pequeño hint de debug (agregado para ayudar a diagnosticar errores) */
   #debugHint { position:fixed; right:12px; bottom:12px; z-index:9999; background:rgba(0,0,0,0.6); color:#fff; padding:8px 10px; border-radius:8px; font-size:13px; display:none; }
   #debugHint.show { display:block; }
+
 </style>
 </head>
 <body>
@@ -207,7 +208,7 @@
 
       <section class="block">
         <div class="text" id="para2">
-          A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mi eres muy importante y no puedo imaginar mi día **a** día sin hablar contigo
+          A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mi eres muy importante y no puedo imaginar mi **día a día** sin hablar contigo
         </div>
       </section>
 
@@ -271,54 +272,51 @@
   <div id="debugHint" role="status" aria-live="polite"></div>
 
 <script>
-// FIX JAVASCRIPT: Las variables de configuración y los datos de la letra deben estar aquí,
-// dentro del mismo bloque <script> para que sean accesibles al código que se ejecuta.
-
-  /* === CONFIG === */
+  
+  /* === CONFIGURACIÓN Y DATOS === */
   const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
   const DEFAULT_AUDIO_FILENAME = 'mister-loverman.mp3';
-  const defaultDelayBetweenLines = 2000; // ms si no hay timestamps
+  const defaultDelayBetweenLines = 2000; // ms de fallback
 
-  /* === DATOS DE LA LETRA (CORRECTAMENTE COLOCADOS) === */
+  // FIX SINCRONIZACIÓN: Timestamps (tiempo en segundos) añadidos para Mr. Loverman
   const lyricsData = [
-    { text: "I'm headed straight for the floor" },
-    { text: "The alcohol served its tour" },
-    { text: "And it's headed straight for my skin" },
-    { text: "Leaving me daft and dim" },
-    { text: "I've got this shake in my legs" },
-    { text: "Shaking the thoughts from my head" },
-    { text: "But who put these waves in the door?" },
-    { text: "I crack and out I pour" },
-    { text: "I'm Mr. Loverman" },
-    { text: "And I miss my lover, man" },
-    { text: "I'm Mr. Loverman" },
-    { text: "Oh, and I miss my lover" },
-    { text: "The ways in which you talk to me" },
-    { text: "Have me wishin' I were gone" },
-    { text: "The ways that you say my name" },
-    { text: "Have me runnin' on and on" },
-    { text: "Oh, I'm cramping up, I'm cramping up" },
-    { text: "But you're cracking up, you're cracking up" },
-    { text: "I'm Mr. Loverman" },
-    { text: "And I miss my loverman" },
-    { text: "I'm Mr. Loverman" },
-    { text: "Oh, and I miss my lover" },
-    { text: "I've shattered now, I'm spilling out" },
-    { text: "Upon this linoleum ground (Mr. Loverman)" },
-    { text: "I'm reeling in my brain again" },
-    { text: "Before it can get back to you (Mr. Loverman)" },
-    { text: "Oh, what am I supposed to do without you?" },
-    { text: "I'm Mr. Loverman" },
-    { text: "And I miss my lover, man (I miss my lover)" },
-    { text: "I'm Mr. Loverman (oh-oh)" },
-    { text: "Oh, and I miss my lover (Mr. Loverman)" },
-    { text: "I'm Mr. Loverman" }
+    { time: 4.6, text: "I'm headed straight for the floor" },
+    { time: 8.2, text: "The alcohol served its tour" },
+    { time: 11.9, text: "And it's headed straight for my skin" },
+    { time: 15.6, text: "Leaving me daft and dim" },
+    { time: 19.3, text: "I've got this shake in my legs" },
+    { time: 23.1, text: "Shaking the thoughts from my head" },
+    { time: 26.8, text: "But who put these waves in the door?" },
+    { time: 30.5, text: "I crack and out I pour" },
+    { time: 34.3, text: "I'm Mr. Loverman" },
+    { time: 38.0, text: "And I miss my lover, man" },
+    { time: 41.7, text: "I'm Mr. Loverman" },
+    { time: 45.4, text: "Oh, and I miss my lover" },
+    { time: 49.2, text: "The ways in which you talk to me" },
+    { time: 52.9, text: "Have me wishin' I were gone" },
+    { time: 56.6, text: "The ways that you say my name" },
+    { time: 60.3, text: "Have me runnin' on and on" },
+    { time: 64.0, text: "Oh, I'm cramping up, I'm cramping up" },
+    { time: 67.8, text: "But you're cracking up, you're cracking up" },
+    { time: 71.4, text: "I'm Mr. Loverman" },
+    { time: 75.1, text: "And I miss my loverman" },
+    { time: 78.8, text: "I'm Mr. Loverman" },
+    { time: 82.5, text: "Oh, and I miss my lover" },
+    { time: 94.2, text: "I've shattered now, I'm spilling out" },
+    { time: 97.9, text: "Upon this linoleum ground (Mr. Loverman)" },
+    { time: 101.5, text: "I'm reeling in my brain again" },
+    { time: 105.3, text: "Before it can get back to you (Mr. Loverman)" },
+    { time: 109.0, text: "Oh, what am I supposed to do without you?" },
+    { time: 112.7, text: "I'm Mr. Loverman" },
+    { time: 116.4, text: "And I miss my lover, man (I miss my lover)" },
+    { time: 120.1, text: "I'm Mr. Loverman (oh-oh)" },
+    { time: 123.8, text: "Oh, and I miss my lover (Mr. Loverman)" },
+    { time: 127.5, text: "I'm Mr. Loverman" }
   ];
 
 
 (function(){
-  // El resto de tu lógica JavaScript se mantiene igual.
-
+  
   /* === DOM refs === */
   const btn = document.getElementById('playBtn');
   const heartSvg = document.getElementById('heartSvg');
@@ -326,7 +324,7 @@
   const audioSrc = document.getElementById('audioSrc');
   const linesContainer = document.getElementById('linesContainer');
   const debugEl = document.getElementById('debugHint');
-
+  
   /* --- util debug en pantalla --- */
   function showDebug(msg, isError){
     if(!debugEl) return;
@@ -353,10 +351,12 @@
   }
 
   function detectAudioSrc(){
+    // Usa la URL definida al principio
     if (RAW_GITHUB_URL_OVERRIDE && RAW_GITHUB_URL_OVERRIDE.trim().length>0) return RAW_GITHUB_URL_OVERRIDE;
+    
     if (audioSrc && audioSrc.getAttribute('data-src') && audioSrc.getAttribute('data-src').trim().length>0) return audioSrc.getAttribute('data-src');
     
-    // Corregido: Si la URL no es el placeholder de ejemplo.com, la usa
+    // Usa el src si es válido y no el placeholder
     if (audioSrc && audioSrc.src && audioSrc.src.trim().length>0 && !audioSrc.src.includes('ejemplo.com')) return audioSrc.src;
     
     const guess = buildRawGuess();
@@ -374,19 +374,18 @@
         showDebug('Audio cargado.');
       }
     } else {
-      showDebug('No se encontró audio: subí mp3 o pon la URL raw en CONFIG.', true);
+      showDebug('No se encontró audio: la URL no está definida o es inválida.', true);
     }
   })();
-
+  
   /* === preparar y pintar líneas === */
   function setupLines(lines){
     linesContainer.innerHTML = '';
-    // Ahora usa la constante lyricsData correctamente
     const arr = Array.isArray(lines) && lines.length ? lines : lyricsData || [];
     if(!arr || arr.length===0){
       const hint = document.createElement('div');
       hint.style.opacity = .6;
-      hint.textContent = 'Pega las líneas en lyricsData para que aparezcan aquí (pueden incluir time en segundos).';
+      hint.textContent = 'Las letras no fueron cargadas. Revisa el array lyricsData.';
       linesContainer.appendChild(hint);
       return;
     }
@@ -395,8 +394,7 @@
       d.className = 'line';
       d.dataset.idx = idx;
       d.textContent = ln.text || '';
-      // fallback color for browsers that don't support background-clip text
-      d.style.color = 'var(--accent)';
+      d.style.color = 'var(--accent)'; // Fallback
       linesContainer.appendChild(d);
     });
   }
@@ -410,11 +408,6 @@
     heartSvg.classList.add('show');
   }
 
-  function showLine(i){
-    const ln = document.querySelector('.line[data-idx="'+i+'"]');
-    if(ln) ln.classList.add('visible');
-  }
-
   function revealSequentialByInterval(intervalMs){
     const nodes = Array.from(document.querySelectorAll('.line'));
     nodes.forEach((el, idx) => {
@@ -423,112 +416,100 @@
   }
 
   function revealByTimestampsFromArray(arr){
-    // asume que arr entries have .time in seconds
+    // Limpia todas las líneas al empezar a escuchar el audio
     document.querySelectorAll('.line').forEach(x=> x.classList.remove('visible'));
-    audioEl.addEventListener('timeupdate', function timestampHandler(){
+    
+    // Función que se ejecuta con cada actualización de tiempo del audio
+    const timestampHandler = function(){
       const t = audioEl.currentTime;
       arr.forEach((ln, idx) => {
+        // Solo si tiene tiempo definido Y si el tiempo actual es mayor/igual al tiempo de la línea
         if (ln.time !== undefined && t >= ln.time){
           const el = document.querySelector('.line[data-idx="'+idx+'"]');
           if (el && !el.classList.contains('visible')) el.classList.add('visible');
         }
       });
-    });
+      // Detener la sincronización cuando termina el audio
+      if (audioEl.ended) {
+          audioEl.removeEventListener('timeupdate', timestampHandler);
+      }
+    };
+    audioEl.addEventListener('timeupdate', timestampHandler);
   }
 
   /* === click handler robusto === */
-  if(!btn){ showDebug('Botón no encontrado (id="playBtn")', true); console.error('playBtn missing'); return; }
-  if(!audioEl){ showDebug('Elemento audio no encontrado (id="track")', true); console.error('audio missing'); return; }
+  if(!btn || !audioEl){ showDebug('Elementos principales (botón/audio) faltan.', true); return; }
 
   btn.addEventListener('click', async function(){
     btn.disabled = true;
     btn.style.opacity = '0.85';
 
-    // 1) animar corazón
+    // 1) Animación del corazón primero
     animateHeart();
 
-    // breve pausa para que el corazón aparezca antes de empezar audio/letras
     await new Promise(r=> setTimeout(r, 420));
 
-    // 2) intentar reproducir audio
+    // 2) Intentar reproducir audio
     const hasAudio = audioEl && audioEl.src && audioEl.src.trim().length>0 && !audioEl.src.includes('ejemplo.com');
+    
     if (hasAudio){
-      // asegurarnos de tener duration; si no, esperar loadedmetadata
+      
+      // Intenta cargar metadata si no está lista
       if (!audioEl.duration || isNaN(audioEl.duration) || audioEl.duration === Infinity){
         await new Promise(resolve => {
           const onMeta = ()=> { audioEl.removeEventListener('loadedmetadata', onMeta); resolve(); };
           audioEl.addEventListener('loadedmetadata', onMeta);
-          // timeout safety 3s
-          setTimeout(resolve, 3000);
+          setTimeout(resolve, 3000); // Falla segura
         });
       }
 
-      try {
-        audioEl.currentTime = 0;
-      } catch(e){ /* ignore */ }
+      try { audioEl.currentTime = 0; } catch(e){ /* ignore */ }
 
       try {
         const playPromise = audioEl.play();
         if (playPromise !== undefined) await playPromise;
-        showDebug('Audio reproduciéndose...');
+        showDebug('Audio reproduciéndose y letras sincronizadas.');
       } catch(err){
         console.warn('Play rejected:', err);
-        showDebug('No se pudo reproducir audio (ver consola). Mostrando letras igualmente.', true);
-        // mostrar letras aunque no pueda sonar
-        const arr = lyricsData.length ? lyricsData : (window.LYRICS_DATA || []);
-        if (arr.length){
-          const interval = defaultDelayBetweenLines;
-          revealSequentialByInterval(interval);
-        }
+        showDebug('No se pudo reproducir audio (Error de navegador). Mostrando letras automáticas.', true);
+        // Si falla la reproducción (común en Chrome sin interacción previa), se muestra el texto automáticamente
+        const interval = defaultDelayBetweenLines;
+        revealSequentialByInterval(interval);
         btn.disabled = false;
         btn.style.opacity = '1';
         return;
       }
 
-      // si tenemos timestamps en lyricsData, usar esos
-      const arr = (lyricsData && lyricsData.length) ? lyricsData : (window.LYRICS_DATA || []);
+      // 3) Muestra las letras con los timestamps exactos
+      const arr = lyricsData;
       const hasTimes = arr.some(x => x && x.time !== undefined);
 
       if (hasTimes){
         revealByTimestampsFromArray(arr);
       } else {
-        // usar duración del audio para calcular intervalos automáticos
+        // Fallback por si borras los tiempos
         const totalDuration = audioEl.duration && !isNaN(audioEl.duration) ? audioEl.duration : null;
         const linesCount = document.querySelectorAll('.line').length || arr.length || 1;
         if (totalDuration && linesCount>0){
           const intervalMs = Math.max(300, Math.floor((totalDuration * 1000) / linesCount));
           revealSequentialByInterval(intervalMs);
         } else {
-          // fallback: retardo fijo
           revealSequentialByInterval(defaultDelayBetweenLines);
         }
       }
 
     } else {
-      // no hay audio: mostrar letras con retardo fijo
+      // No hay audio: solo muestra letras con retardo fijo
       showDebug('No hay audio configurado — mostrando texto solamente.');
-      const arr = lyricsData.length ? lyricsData : (window.LYRICS_DATA || []);
+      const arr = lyricsData;
       if (arr.length) revealSequentialByInterval(defaultDelayBetweenLines);
     }
 
-    // re-enable button después de un rato
+    // Re-habilita el botón (para que pueda volver a reproducir al recargar la página)
     setTimeout(()=> { btn.disabled=false; btn.style.opacity='1'; }, 3000);
   });
 
-  /* === debug helpers === */
-  window.__pageDebug = {
-    check: ()=> ({
-      btn: !!document.getElementById('playBtn'),
-      heart: !!document.getElementById('heartSvg'),
-      audioSrc: document.getElementById('audioSrc')?.src || '',
-      lines: document.querySelectorAll('.line').length,
-      duration: document.getElementById('track')?.duration || 0
-    }),
-    playAudioNow: ()=> document.getElementById('track')?.play().catch(e=>console.error('play error', e))
-  };
-
-  console.log('SCRIPT listo. Usa window.__pageDebug.check() para diagnosticar.');
-  showDebug('Script listo — apretá el botón.');
+  showDebug('Script cargado — pulsa el botón.');
 
 })();
 </script>
