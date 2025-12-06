@@ -71,7 +71,7 @@
   }
   .imgwrap img{
     border-radius:12px;
-    width:200px;
+    width:200px; /* Estas líneas son las que hacen que tus imágenes se vean bien */
     height:200px;
     object-fit:cover;
     box-shadow:0 10px 30px rgba(20,20,40,0.06);
@@ -117,8 +117,8 @@
   .lyrics{
     flex:1;
     min-height:70px;
-    max-height: 120px; /* Se añade para limitar la altura */
-    overflow-y: hidden; /* Se añade para que las letras se desplacen por debajo */
+    max-height: 120px; /* Se añade para que las letras se vean bien */
+    overflow-y: hidden; /* Se añade para que las letras se vean bien */
     padding:12px;
     border-radius:10px;
     background:linear-gradient(180deg,#fff,#fff);
@@ -217,7 +217,7 @@
                 </linearGradient>
               </defs>
             </svg>
-          </div>
+        </div>
 
           <button class="action-btn" id="playBtn">Apreta aquí</button>
 
@@ -260,7 +260,7 @@ const images = {
   imgs3: [ "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4CYoBDZu6Cd8eag_bUXe-coZBeHFgXa6xAr1_wSnn56ql_IO_T2BQJ6vcQ5MS_GMOcrw" ]
 };
 
-// Lyrics: las líneas que pegaste (sin timestamps) — las inserté tal cual
+// Lyrics: las líneas que pegaste (sin timestamps)
 const lyricsData = [
   { text: "I'm headed straight for the floor" },
   { text: "The alcohol served its tour" },
@@ -297,7 +297,7 @@ const lyricsData = [
 ];
 
 // ==========================================================
-//                 C Ó D I G O   D E   I N T E R A C C I Ó N   (Corregido)
+//                 C Ó D I G O   D E L   B O T Ó N   (Corregido y Añadido)
 // ==========================================================
 
 // 1. OBTENER LOS ELEMENTOS CLAVE
@@ -308,7 +308,8 @@ const heartSvg = document.getElementById('heartSvg');
 const linesContainer = document.getElementById('linesContainer');
 let isPlaying = false; 
 
-// 2. ASIGNAR LA URL CORRECTA AL ELEMENTO AUDIO (Necesario para que el audio cargue)
+// 2. CORRECCIÓN PRINCIPAL: ASIGNAR LA URL Y CARGAR EL AUDIO
+// Esto toma la URL de tu variable y la asigna al elemento audio.
 audioSource.src = audioURL;
 audioTrack.load(); 
 
@@ -330,7 +331,6 @@ function startLyricsDisplay() {
 
     function showNextLine() {
         if (!isPlaying || lineIndex >= lineElements.length) {
-            // Detiene la función si la música se pausa o terminan las letras
             return;
         }
         
@@ -341,31 +341,27 @@ function startLyricsDisplay() {
         
         // Hace visible la línea actual
         lineElements[lineIndex].classList.add('visible');
-        
-        // Desplazar la caja de letras para ver la línea actual
         linesContainer.scrollTop = linesContainer.scrollHeight;
         
         lineIndex++;
         
-        // Espera el tiempo configurado para la siguiente línea
         setTimeout(showNextLine, defaultDelayBetweenLines);
     }
     
-    // Inicia la secuencia
     showNextLine();
 }
 
 
-// 4. CONECTAR EL BOTÓN A LA REPRODUCCIÓN Y ANIMACIÓN (El corazón de la corrección)
+// 4. CONECTAR EL BOTÓN AL AUDIO Y ANIMACIÓN
 playButton.addEventListener('click', function() {
     if (!isPlaying) {
-        // Reproducir
+        // Intenta reproducir el audio
         audioTrack.play()
             .then(() => {
                 isPlaying = true;
                 playButton.textContent = "¡Música sonando!";
                 
-                // Activar la animación del corazón (añadiendo la clase 'show')
+                // Activar la animación del corazón
                 heartSvg.classList.add('show');
                 
                 // Iniciar la visualización de las letras
@@ -373,7 +369,6 @@ playButton.addEventListener('click', function() {
                 
             })
             .catch(error => {
-                // Manejar si la reproducción falla por restricciones del navegador
                 console.error("Error al reproducir el audio:", error);
                 playButton.textContent = "Error, vuelve a intentar :(";
             });
@@ -392,8 +387,8 @@ audioTrack.addEventListener('ended', function() {
     isPlaying = false;
     playButton.textContent = "Volver a escuchar";
     heartSvg.classList.remove('show');
-    linesContainer.innerHTML = ''; // Limpiar letras al terminar
-    audioTrack.currentTime = 0; // Reiniciar
+    linesContainer.innerHTML = ''; 
+    audioTrack.currentTime = 0; 
 });
 </script>
 
