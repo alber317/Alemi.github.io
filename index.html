@@ -127,6 +127,23 @@
   .line{ opacity:0; transform:translateY(6px); transition:all .4s ease; margin:6px 0; color:var(--text) }
 
   .line.visible{ opacity:1; transform:translateY(0); }
+  /* --- Letras con gradiente acorde a la paleta --- */
+.line {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  font-weight:700;
+  font-size:17px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+.line.visible { 
+  opacity:1;
+  transform:translateY(0);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
 
   footer{ padding:16px; font-size:13px; color:var(--muted); border-top:1px solid #f3eef3; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 
@@ -245,6 +262,231 @@
   <div id="debugHint" role="status" aria-live="polite"></div>
 
 <script>
+  
+(function(){
+  /* === CONFIG === */
+  const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
+  const DEFAULT_AUDIO_FILENAME = 'mister-loverman.mp3';
+  const defaultDelayBetweenLines = 2000; // ms si no hay timestamps
+
+  /* === DATOS (ya los tenés en el HTML) ===
+     Si quieres editar la letra aquí, actualiza `lyricsData` (cada objeto puede tener time en segundos).
+  */
+  const lyricsData = window.LYRICS_DATA || [
+    /* si ya pegaste en el HTML, la variable window.LYRICS_DATA contendrá los objetos. 
+       Sino puedes dejar aquí el array nuevamente. */
+  ];
+
+  /* === DOM refs === */
+  const btn = document.getElementById('playBtn');
+  const heartSvg = document.getElementById('heartSvg');
+  const audioEl = document.getElementById('track');
+  const audioSrc = document.getElementById('audioSrc');
+  const linesContainer = document.getElementById('linesContainer');
+  const debugEl = document.getElementById('debugHint');
+
+  /* --- util debug en pantalla --- */
+  function showDebug(msg, isError){
+    if(!debugEl) return;
+    debugEl.textContent = msg;
+    debugEl.classList.add('show');
+    debugEl.style.background = isError ? 'rgba(160,20,20,0.9)' : 'rgba(0,0,0,0.6)';
+    setTimeout(()=> debugEl.classList.remove('show'), 5000);
+    console[isError?'error':'log']('[PAGE]', msg);
+  }
+
+  /* --- detectar/cargar audio --- */
+  function buildRawGuess(){
+    try {
+      const host = location.hostname;
+      let user = null;
+      if (host.endsWith('github.io')) user = host.split('.')[0];
+      const pathParts = location.pathname.split('/').filter(Boolean);
+      const repoGuess = pathParts[0] || (user ? user + '.github.io' : null);
+      if(user && repoGuess){
+        return 'https://raw.githubusercontent.com/' + user + '/' + repoGuess + '/main/' + DEFAULT_AUDIO_FILENAME;
+      }
+    } catch(e){}
+    return '';
+  }
+
+  function detectAudioSrc(){
+    if (RAW_GITHUB_URL_OVERRIDE && RAW_GITHUB_URL_OVERRIDE.trim().length>0) return RAW_GITHUB_URL_OVERRIDE;
+    if (audioSrc && audioSrc.getAttribute('data-src') && audioSrc.getAttribute('data-src').trim().length>0) return audioSrc.getAttribute('data-src');
+    if (audioSrc && audioSrc.src && audioSrc.src.trim().length>0) return audioSrc.src;
+    const guess = buildRawGuess();
+    if (guess) return guess;
+    return '';
+  }
+
+  (function setAudio(){
+    const src = detectAudioSrc();
+    if (src && src.trim().length>0){
+      if(audioSrc){
+        audioSrc.setAttribute('data-src', src);
+        audioSrc.src = src;
+        try { audioEl.load(); } catch(e){ console.warn('audio load failed', e); }
+        showDebug('Audio cargado.');
+      }
+    } else {
+      showDebug('No se encontró audio: subí mp3 o pon la URL raw en CONFIG.', true);
+    }
+  })();
+
+  /* === preparar y pintar líneas === */
+  function setupLines(lines){
+    linesContainer.innerHTML = '';
+    const arr = Array.isArray(lines) && lines.length ? lines : window.LYRICS_DATA || [];
+    if(!arr || arr.length===0){
+      const hint = document.createElement('div');
+      hint.style.opacity = .6;
+      hint.textContent = 'Pega las líneas en lyricsData para que aparezcan aquí (pueden incluir time en segundos).';
+      linesContainer.appendChild(hint);
+      return;
+    }
+    arr.forEach((ln, idx) => {
+      const d = document.createElement('div');
+      d.className = 'line';
+      d.dataset.idx = idx;
+      d.textContent = ln.text || '';
+      // fallback color for browsers that don't support background-clip text
+      d.style.color = 'var(--accent)';
+      linesContainer.appendChild(d);
+    });
+  }
+  setupLines(lyricsData);
+
+  /* === animaciones === */
+  function animateHeart(){
+    if(!heartSvg) return;
+    heartSvg.classList.remove('show');
+    void heartSvg.offsetWidth;
+    heartSvg.classList.add('show');
+  }
+
+  function showLine(i){
+    const ln = document.querySelector('.line[data-idx="'+i+'"]');
+    if(ln) ln.classList.add('visible');
+  }
+
+  function revealSequentialByInterval(intervalMs){
+    const nodes = Array.from(document.querySelectorAll('.line'));
+    nodes.forEach((el, idx) => {
+      setTimeout(()=> el.classList.add('visible'), Math.max(0, Math.round(idx * intervalMs)));
+    });
+  }
+
+  function revealByTimestampsFromArray(arr){
+    // asume que arr entries have .time in seconds
+    document.querySelectorAll('.line').forEach(x=> x.classList.remove('visible'));
+    audioEl.addEventListener('timeupdate', function timestampHandler(){
+      const t = audioEl.currentTime;
+      arr.forEach((ln, idx) => {
+        if (ln.time !== undefined && t >= ln.time){
+          const el = document.querySelector('.line[data-idx="'+idx+'"]');
+          if (el && !el.classList.contains('visible')) el.classList.add('visible');
+        }
+      });
+    });
+  }
+
+  /* === click handler robusto === */
+  if(!btn){ showDebug('Botón no encontrado (id="playBtn")', true); console.error('playBtn missing'); return; }
+  if(!audioEl){ showDebug('Elemento audio no encontrado (id="track")', true); console.error('audio missing'); return; }
+
+  btn.addEventListener('click', async function(){
+    btn.disabled = true;
+    btn.style.opacity = '0.85';
+
+    // 1) animar corazón
+    animateHeart();
+
+    // breve pausa para que el corazón aparezca antes de empezar audio/letras
+    await new Promise(r=> setTimeout(r, 420));
+
+    // 2) intentar reproducir audio
+    const hasAudio = audioEl && audioEl.src && audioEl.src.trim().length>0;
+    if (hasAudio){
+      // asegurarnos de tener duration; si no, esperar loadedmetadata
+      if (!audioEl.duration || isNaN(audioEl.duration) || audioEl.duration === Infinity){
+        await new Promise(resolve => {
+          const onMeta = ()=> { audioEl.removeEventListener('loadedmetadata', onMeta); resolve(); };
+          audioEl.addEventListener('loadedmetadata', onMeta);
+          // timeout safety 3s
+          setTimeout(resolve, 3000);
+        });
+      }
+
+      try {
+        audioEl.currentTime = 0;
+      } catch(e){ /* ignore */ }
+
+      try {
+        const playPromise = audioEl.play();
+        if (playPromise !== undefined) await playPromise;
+        showDebug('Audio reproduciéndose...');
+      } catch(err){
+        console.warn('Play rejected:', err);
+        showDebug('No se pudo reproducir audio (ver consola). Mostrando letras igualmente.', true);
+        // mostrar letras aunque no pueda sonar
+        const arr = lyricsData.length ? lyricsData : (window.LYRICS_DATA || []);
+        if (arr.length){
+          const interval = defaultDelayBetweenLines;
+          revealSequentialByInterval(interval);
+        }
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        return;
+      }
+
+      // si tenemos timestamps en lyricsData, usar esos
+      const arr = (lyricsData && lyricsData.length) ? lyricsData : (window.LYRICS_DATA || []);
+      const hasTimes = arr.some(x => x && x.time !== undefined);
+
+      if (hasTimes){
+        revealByTimestampsFromArray(arr);
+      } else {
+        // usar duración del audio para calcular intervalos automáticos
+        const totalDuration = audioEl.duration && !isNaN(audioEl.duration) ? audioEl.duration : null;
+        const linesCount = document.querySelectorAll('.line').length || arr.length || 1;
+        if (totalDuration && linesCount>0){
+          const intervalMs = Math.max(300, Math.floor((totalDuration * 1000) / linesCount));
+          revealSequentialByInterval(intervalMs);
+        } else {
+          // fallback: retardo fijo
+          revealSequentialByInterval(defaultDelayBetweenLines);
+        }
+      }
+
+    } else {
+      // no hay audio: mostrar letras con retardo fijo
+      showDebug('No hay audio configurado — mostrando texto solamente.');
+      const arr = lyricsData.length ? lyricsData : (window.LYRICS_DATA || []);
+      if (arr.length) revealSequentialByInterval(defaultDelayBetweenLines);
+    }
+
+    // re-enable button después de un rato
+    setTimeout(()=> { btn.disabled=false; btn.style.opacity='1'; }, 3000);
+  });
+
+  /* === debug helpers === */
+  window.__pageDebug = {
+    check: ()=> ({
+      btn: !!document.getElementById('playBtn'),
+      heart: !!document.getElementById('heartSvg'),
+      audioSrc: document.getElementById('audioSrc')?.src || '',
+      lines: document.querySelectorAll('.line').length,
+      duration: document.getElementById('track')?.duration || 0
+    }),
+    playAudioNow: ()=> document.getElementById('track')?.play().catch(e=>console.error('play error', e))
+  };
+
+  console.log('SCRIPT listo. Usa window.__pageDebug.check() para diagnosticar.');
+  showDebug('Script listo — apretá el botón.');
+
+})();
+</script>
+
 /* --- CONFIG: aquí pegué tu URL raw y la letra tal como la mandaste --- */
 
 // Pega raw URL del mp3 en RAW_GITHUB_URL_OVERRIDE si prefieres: (he puesto tu URL con espacios codificados)
