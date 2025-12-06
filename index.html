@@ -153,6 +153,9 @@
     animation: heart-pop .55s ease forwards, heart-pulse 1.2s 0.6s ease-in-out infinite;
   }
 
+  /* pequeño hint de debug (se muestra si algo falla) */
+  #debugHint { position:fixed; right:12px; bottom:12px; z-index:9999; background:rgba(0,0,0,0.6); color:#fff; padding:8px 10px; border-radius:8px; font-size:13px; display:none; }
+  #debugHint.show { display:block; }
 </style>
 </head>
 <body>
@@ -239,28 +242,23 @@
     </footer>
   </div>
 
+  <div id="debugHint" role="status" aria-live="polite"></div>
+
 <script>
-/* CONFIGURACIÓN: no hace falta tocar si pegaste todo en el HTML ya */
-const audioURL = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky Montgomery - Mr Loverman (Official Lyric Video).mp3';
-const defaultDelayBetweenLines = 2000; // ms
+/* --- CONFIG: aquí pegué tu URL raw y la letra tal como la mandaste --- */
 
-const content = {
-  title: "Para mi persona favorita",
-  subtitle: "Espero te guste",
-  para1: "Nunca crei encontrar una persona con la cual puedo llegar a ser yo mismo sin sentir pena o verguenza pues de todas las casualidades del Universo, la mejor fue coincidir cotigo, y nosotros siempre seremos como:",
-  para2: "A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mi eres muy importante y no puedo imaginar mi dia dia sin hablar contigo",
-  para3: "Aunque aun me falte mucho mas que aprender o conocer sobre ti, siempre me encatara la idea de saber las cosas que te hacen reir, llorar, las cosas que te preocupan, tus problemas, tus sueños, y mucho mas\n\nEspero que en este nuevo año sigamos hablando como siempre, y nunca separarnos por un 2026 lleno de nuevas Historias"
-};
+// Pega raw URL del mp3 en RAW_GITHUB_URL_OVERRIDE si prefieres: (he puesto tu URL con espacios codificados)
+const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
 
-const images = {
-  imgs1: [ "https://images5.alphacoders.com/132/1326575.png" ],
-  imgs2: [ "https://i.pinimg.com/736x/57/56/cf/5756cf550e06ceaa5ed63526d59d9af0.jpg", "https://i.pinimg.com/280x280_RS/b3/40/e7/b340e7fe543acb710569dcbfe776bafe.jpg" ],
-  imgs3: [ "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4CYoBDZu6Cd8eag_bUXe-coZBeHFgXa6xAr1_wSnn56ql_IO_T2BQJ6vcQ5MS_GMOcrw" ]
-];
+// si subiste el mp3 al repo en la raíz con otro nombre, ponlo aquí
+const DEFAULT_AUDIO_FILENAME = 'mister-loverman.mp3';
 
-// Lyrics: las líneas que pegaste (sin timestamps) — las inserté tal cual
+// retardo entre líneas si no usás timestamps (ms)
+const defaultDelayBetweenLines = 2000;
+
+// LETRAS tal como las pegaste (si querés timestamps, añadilos en cada objeto como time: segundos)
 const lyricsData = [
-  { text: "I'm headed straight for the floor" },
+ { text: "I'm headed straight for the floor" },
   { text: "The alcohol served its tour" },
   { text: "And it's headed straight for my skin" },
   { text: "Leaving me daft and dim" },
