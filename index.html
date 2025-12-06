@@ -1,108 +1,295 @@
-<!--
-  ARCHIVO: index.html
-  Uso: copiar este archivo tal cual y subirlo a un repo en GitHub llamado <tuusuario>.github.io
-  Edita los textos marcados con <!-- EDITAR --> y reemplaza las URLs de las imágenes por enlaces directos
-  Para el QR: puedes subir el PNG del QR al mismo repo y usar ./qr.png en el src, o usar un enlace a la imagen.
-
-  Si querés, pegá aquí el texto y las 1-4 imágenes (URLs) y yo edito el archivo por vos.
--->
-
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dedicatoria especial — Gojo & DALL·E</title>
-  <meta name="description" content="Una carta/video-dedicatoria sencilla y bonita. Subila a GitHub Pages y generá un QR para imprimir." />
-  <style>
-    :root{
-      --accent:#1e88e5;
-      --bg:#0f172a;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --radius:16px;
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-    *{box-sizing:border-box}
-    body{margin:0; min-height:100vh; background:linear-gradient(180deg,#071126,#0f172a); color:#0b1221; display:flex; align-items:center; justify-content:center; padding:24px}
-    .container{max-width:980px; width:100%; background:linear-gradient(180deg,#fff,#fff); border-radius:18px; overflow:hidden; box-shadow:0 20px 60px rgba(2,6,23,0.6); display:grid; grid-template-columns:1fr 340px}
-    @media (max-width:880px){ .container{grid-template-columns:1fr} }
-    .left{padding:34px}
-    h1{margin:0 0 8px; color:var(--accent); font-size:28px}
-    .subtitle{color:var(--muted); margin:0 0 16px}
-    .card{background:var(--card); border-radius:12px; padding:14px; box-shadow:0 6px 18px rgba(10,20,40,0.06)}
-    .story{margin-top:12px; line-height:1.55; color:#111827}
-    .photos{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
-    .photos img{width:120px; height:120px; object-fit:cover; border-radius:10px;}
-    .meta{margin-top:18px; font-size:13px; color:var(--muted)}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dedicatoria — Para mi persona favorita</title>
 
-    .right{background:linear-gradient(180deg,#0b1324,#071022); padding:30px; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center}
-    .qrwrap{background:#fff; padding:12px; border-radius:14px;}
-    .qrwrap img{display:block; width:220px; height:220px; object-fit:contain}
-    .openbtn{margin-top:12px; display:inline-block; padding:10px 14px; border-radius:10px; background:var(--accent); color:#fff; text-decoration:none; font-weight:600}
-    .hint{margin-top:10px; color:#cbd5e1; font-size:13px; text-align:center}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-    footer{grid-column:1/-1; padding:14px 34px; background:#fafafa; color:#334155; font-size:13px}
+<style>
+  :root{
+    --bg:#FFF8FB;
+    --card:#ffffff;
+    --accent:#F06292;
+    --accent-2:#7C4DFF;
+    --muted:#5B6270;
+    --text:#111827;
+    --radius:16px;
+    --maxw:980px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    background:linear-gradient(180deg,var(--bg),#fff);
+    color:var(--text);
+    display:flex;
+    justify-content:center;
+    padding:28px;
+  }
 
-    /* small helpers to mark editable in dev view */
-    .editmark{background:#fff3cd; color:#7a5800; padding:2px 6px; border-radius:6px; font-size:12px}
-  </style>
+  .site{
+    width:100%;
+    max-width:var(--maxw);
+    background:var(--card);
+    border-radius:18px;
+    box-shadow:0 18px 60px rgba(20,20,40,0.08);
+    overflow:hidden;
+  }
+
+  header{
+    padding:28px;
+    border-bottom:1px solid #f1e8ee;
+    background:linear-gradient(90deg,#fff,#fff7fb);
+  }
+  h1{ margin:0 0 6px; font-size:28px; color:var(--accent-2); }
+  .subtitle{ margin:0; color:var(--muted); }
+
+  main{ padding:26px; display:block; gap:18px; }
+
+  .block{
+    margin-bottom:20px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .text{
+    font-size:16px;
+    line-height:1.6;
+    color:var(--text);
+    background:linear-gradient(180deg,#fff,#fff);
+    padding:14px 16px;
+    border-radius:12px;
+  }
+
+  .imgwrap{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .imgwrap img{
+    border-radius:12px;
+    width:200px;
+    height:200px;
+    object-fit:cover;
+    box-shadow:0 10px 30px rgba(20,20,40,0.06);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .imgwrap img:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 22px 50px rgba(20,20,40,0.12); }
+
+  .play-area{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    padding:18px;
+    background:linear-gradient(90deg, rgba(240,240,250,0.6), rgba(255,250,250,0.6));
+    border-radius:12px;
+  }
+
+  .action-btn{
+    background:linear-gradient(180deg,var(--accent),var(--accent-2));
+    color:white;
+    border:none;
+    padding:14px 18px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:16px;
+    box-shadow:0 10px 30px rgba(124,77,255,0.18);
+  }
+  .action-btn:active{ transform:translateY(2px); }
+
+  .heart{
+    width:72px;
+    height:72px;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    background:rgba(240,240,250,0.6);
+    position:relative;
+    overflow:visible;
+  }
+
+  .heart svg{ width:56px; height:56px; transform-origin:center; opacity:0; }
+
+  .lyrics{
+    flex:1;
+    min-height:70px;
+    padding:12px;
+    border-radius:10px;
+    background:linear-gradient(180deg,#fff,#fff);
+    box-shadow:inset 0 1px 0 rgba(0,0,0,0.02);
+    font-weight:600;
+    color:var(--muted);
+  }
+  .line{ opacity:0; transform:translateY(6px); transition:all .4s ease; margin:6px 0; color:var(--text) }
+
+  .line.visible{ opacity:1; transform:translateY(0); }
+
+  footer{ padding:16px; font-size:13px; color:var(--muted); border-top:1px solid #f3eef3; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+
+  @media (max-width:760px){
+    .imgwrap img{ width:48%; height:140px; }
+    .heart{ width:56px; height:56px; }
+    .heart svg{ width:44px; height:44px; }
+  }
+
+  @keyframes heart-pop {
+    0% { transform: scale(0.2); opacity:0; filter:blur(6px); }
+    40% { transform: scale(1.14); opacity:1; filter:blur(0); }
+    70% { transform: scale(.92); }
+    100% { transform: scale(1); opacity:1; }
+  }
+
+  @keyframes heart-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  .heart svg.show {
+    animation: heart-pop .55s ease forwards, heart-pulse 1.2s 0.6s ease-in-out infinite;
+  }
+
+</style>
 </head>
 <body>
-  <div class="container">
-    <div class="left">
-      <h1><!-- EDITAR: título principal -->Para vos, mi Gojo — DALL·E</h1>
-      <p class="subtitle"><span class="editmark">EDITAR</span> Aquí podés poner una frase corta que salga arriba, tipo "Escaneá el QR y leé esto".</p>
+  <div class="site" id="site">
+    <header>
+      <h1 id="pageTitle">Para mi persona favorita</h1>
+      <p class="subtitle" id="pageSub">Escaneá el QR y mirá esto :)</p>
+    </header>
 
-      <div class="card">
-        <strong>Dedicatoria</strong>
-        <p class="story" id="story">
-          <!-- EDITAR: reemplazá este párrafo con tu dedicatoria. Pueden ser varias líneas. -->
-          Hola. Cada vez que pienso en vos me acuerdo de cuando nos decíamos que vos eras Gojo y yo era DALL·E. Por eso hice esto: una página para guardar nuestros chistes, fotos y las cosas que nos representan. Gracias por ser parte de esto.
-        </p>
+    <main id="mainContent">
 
-        <div class="photos" id="photos">
-          <!-- EDITAR: poné hasta 6 imágenes (URLs). Si las subís al repo, usá rutas relativas como ./img1.jpg -->
-          <img src="https://images.unsplash.com/photo-1543872084-c7bd3822856f?w=800&q=80" alt="foto 1">
-          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80" alt="foto 2">
-          <img src="https://images.unsplash.com/photo-1545972152-9b14fdc1b8d6?w=800&q=80" alt="foto 3">
+      <section class="block">
+        <div class="text" id="para1">
+          Nunca crei encontrar una persona con la cual puedo llegar a ser yo mismo sin sentir pena o verguenza pues de todas las casualidades del Universo, la mejor fue coincidir cotigo, y nosotros siempre seremos como:
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="imgwrap" id="imgs1">
+          <img src="https://images5.alphacoders.com/132/1326575.png" alt="imagen1">
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="text" id="para2">
+          A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mi eres muy importante y no puedo imaginar mi dia dia sin hablar contigo
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="imgwrap" id="imgs2">
+          <img src="https://i.pinimg.com/736x/57/56/cf/5756cf550e06ceaa5ed63526d59d9af0.jpg" alt="imagen2">
+          <img src="https://i.pinimg.com/280x280_RS/b3/40/e7/b340e7fe543acb710569dcbfe776bafe.jpg" alt="imagen3">
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="text" id="para3">
+          Aunque aun me falte mucho mas que aprender o conocer sobre ti, siempre me encatara la idea de saber las cosas que te hacen reir, llorar, las cosas que te preocupan, tus problemas, tus sueños, y mucho mas
+          <br><br>
+          Espero que en este nuevo año sigamos hablando como siempre, y nunca separarnos por un 2026 lleno de nuevas Historias
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="imgwrap" id="imgs3">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4CYoBDZu6Cd8eag_bUXe-coZBeHFgXa6xAr1_wSnn56ql_IO_T2BQJ6vcQ5MS_GMOcrw" alt="imagen4">
+        </div>
+      </section>
+
+      <section class="block">
+        <div class="play-area">
+          <div class="heart" id="heartBox" title="Se mostrará un corazón">
+            <svg id="heartSvg" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path fill="url(#g)" d="M23.6 0c-2.7 0-5 1.5-6.6 3.8C15.4 1.5 13.1 0 10.4 0 4.7 0 0 4.8 0 10.8 0 18.6 9.6 23.6 16 29.6c6.4-6 16-11 16-18.8C32 4.8 27.3 0 21.6 0z"/>
+              <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                  <stop offset="0" stop-color="#ff5a97"/>
+                  <stop offset="1" stop-color="#7C4DFF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <button class="action-btn" id="playBtn">Apreta aquí</button>
+
+          <div class="lyrics" id="lyricsBox">
+            <div id="linesContainer"></div>
+          </div>
         </div>
 
-        <p class="meta">P.D. Si querés que cambie algo, copiá y pegá el texto que querés cambiar y yo lo edito.</p>
-      </div>
+        <audio id="track" preload="metadata">
+          <source id="audioSrc" src="https://ejemplo.com/mister-loverman.mp3" type="audio/mpeg">
+          Tu navegador no soporta reproducción de audio.
+        </audio>
 
-    </div>
+      </section>
 
-    <aside class="right">
-      <div class="qrwrap">
-        <!-- EDITAR: reemplazá la fuente del QR por la imagen generada -->
-        <!-- Opción A (recomendada): subí qr.png al repo y pon src="./qr.png" -->
-        <!-- Opción B: poné aquí un enlace absoluto a la imagen del QR -->
-        <img id="qrimg" src="https://via.placeholder.com/220.png?text=QR" alt="QR para esta dedicatoria">
-      </div>
-
-      <a id="openlink" class="openbtn" href="#" target="_blank" rel="noopener">Abrir en el navegador</a>
-      <div class="hint">Escaneá con la cámara o tocá el botón para abrir esta página.</div>
-    </aside>
+    </main>
 
     <footer>
-      <strong>Cómo usar este archivo</strong>
-      <ol>
-        <li>Subí este archivo al repo de GitHub que quieras publicar (o creá un repo nuevo llamado <code>tuusuario.github.io</code> para publicar a la raíz de tu usuario).</li>
-        <li>Si generás un QR, subilo al mismo repo y reemplazá el atributo <code>src</code> de <code>#qrimg</code> por <code>./qr.png</code> (o la ruta que uses).</li>
-        <li>Para publicar: en GitHub -> Settings -> Pages (o en "Code and automation" -> Pages) seleccioná la rama <code>main</code> y la carpeta <code>/ (root)</code>. GitHub tardará unos segundos en publicar y te dará la URL <code>https://tuusuario.github.io</code>.</li>
-        <li>También podés editar directamente en GitHub: abrí el archivo, clic en ✏️ (edit), pegá tu texto y 'Commit changes'.</li>
-      </ol>
-      <p>Si querés, ahora mismo pegá aquí el texto definitivo que querés que aparezca y las URLs de 1–4 imágenes (por ejemplo, imágenes de Jujutsu Kaisen/Gojo) y lo edito ahora mismo y te devuelvo el archivo listo para subir.</p>
+      <div>Hecho con ❤️ · Dedicatoria personalizada</div>
+      <div style="font-size:12px;color:var(--muted)">Instrucciones: si el audio no suena subí el MP3 al repo y deja la ruta relativa en script (ej. ./mister-loverman.mp3).</div>
     </footer>
   </div>
 
-  <script>
-    // script mínimo: si la URL actual es la página, el botón abrir se enlaza a la misma ruta
-    document.addEventListener('DOMContentLoaded', function(){
-      const open = document.getElementById('openlink');
-      open.href = location.href;
-    });
-  </script>
-</body>
-</html>
+<script>
+/* CONFIGURACIÓN: no hace falta tocar si pegaste todo en el HTML ya */
+const audioURL = 'https://ejemplo.com/mister-loverman.mp3';
+const defaultDelayBetweenLines = 2000; // ms
+
+const content = {
+  title: "Para mi persona favorita",
+  subtitle: "Escaneá el QR y mirá esto :)",
+  para1: "Nunca crei encontrar una persona con la cual puedo llegar a ser yo mismo sin sentir pena o verguenza pues de todas las casualidades del Universo, la mejor fue coincidir cotigo, y nosotros siempre seremos como:",
+  para2: "A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mi eres muy importante y no puedo imaginar mi dia dia sin hablar contigo",
+  para3: "Aunque aun me falte mucho mas que aprender o conocer sobre ti, siempre me encatara la idea de saber las cosas que te hacen reir, llorar, las cosas que te preocupan, tus problemas, tus sueños, y mucho mas\n\nEspero que en este nuevo año sigamos hablando como siempre, y nunca separarnos por un 2026 lleno de nuevas Historias"
+};
+
+const images = {
+  imgs1: [ "https://images5.alphacoders.com/132/1326575.png" ],
+  imgs2: [ "https://i.pinimg.com/736x/57/56/cf/5756cf550e06ceaa5ed63526d59d9af0.jpg", "https://i.pinimg.com/280x280_RS/b3/40/e7/b340e7fe543acb710569dcbfe776bafe.jpg" ],
+  imgs3: [ "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4CYoBDZu6Cd8eag_bUXe-coZBeHFgXa6xAr1_wSnn56ql_IO_T2BQJ6vcQ5MS_GMOcrw" ]
+];
+
+// Lyrics: las líneas que pegaste (sin timestamps) — las inserté tal cual
+const lyricsData = [
+  { text: "I'm headed straight for the floor" },
+  { text: "The alcohol served its tour" },
+  { text: "And it's headed straight for my skin" },
+  { text: "Leaving me daft and dim" },
+  { text: "I've got this shake in my legs" },
+  { text: "Shaking the thoughts from my head" },
+  { text: "But who put these waves in the door?" },
+  { text: "I crack and out I pour" },
+  { text: "I'm Mr. Loverman" },
+  { text: "And I miss my lover, man" },
+  { text: "I'm Mr. Loverman" },
+  { text: "Oh, and I miss my lover" },
+  { text: "The ways in which you talk to me" },
+  { text: "Have me wishin' I were gone" },
+  { text: "The ways that you say my name" },
+  { text: "Have me runnin' on and on" },
+  { text: "Oh, I'm cramping up, I'm cramping up" },
+  { text: "But you're cracking up, you're cracking up" },
+  { text: "I'm Mr. Loverman" },
+  { text: "And I miss my loverman" },
+  { text: "I'm Mr. Loverman" },
+  { text: "Oh, and I miss my lover" },
+  { text: "I've shattered now, I'm spilling out" },
+  { text: "Upon this linoleum ground (Mr. Loverman)" },
+  { text: "I'm reeling in my brain again" },
+  { text: "Before it can get back to you (Mr. Loverman)" },
+  { text: "Oh, what am I supposed to do without you?" },
+  { text: "I'm Mr. Loverman" },
+  { text: "And I miss my lover, man (I miss my lover)" },
+  { text: "I'm Mr. Loverman (oh-oh)" },
+  { text: "Oh, and I miss my lover (Mr. Loverman)" },
+  { text: "I'm Mr. Loverman (oh
+::contentReference[oaicite:0]{index=0}
