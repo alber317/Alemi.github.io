@@ -148,14 +148,19 @@
   footer{ padding:16px; font-size:13px; color:var(--muted); border-top:1px solid #f3eef3; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 
   @media (max-width:760px){
-    .imgwrap img{ width:48%; height:140px; **max-width:100%;** /* Asegura que la imagen no se desborde */ }
+    .imgwrap img{ width:48%; height:140px; }
     .heart{ width:56px; height:56px; }
     .heart svg{ width:44px; height:44px; }
   }
-  /* Agregado para que las imágenes individuales grandes se ajusten en móviles */
-  @media (max-width:480px) {
-    .imgwrap img:only-child { width:100%; height:auto; }
-  }
+  /* FIX IMAGENES: Regla adicional para que las imágenes únicas grandes se vean bien en móvil */
+  @media (max-width: 480px) {
+    .imgwrap img:only-child {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      object-fit: contain; /* Para que la imagen se vea completa si es muy ancha */
+    }
+  }
 
   @keyframes heart-pop {
     0% { transform: scale(0.2); opacity:0; filter:blur(6px); }
@@ -266,14 +271,15 @@
   <div id="debugHint" role="status" aria-live="polite"></div>
 
 <script>
-  
-(function(){
-  
-  /* --- CONFIG: Aquí he puesto tu URL y la letra para que el script la lea --- */
+// FIX JAVASCRIPT: Las variables de configuración y los datos de la letra deben estar aquí,
+// dentro del mismo bloque <script> para que sean accesibles al código que se ejecuta.
+
+  /* === CONFIG === */
   const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
   const DEFAULT_AUDIO_FILENAME = 'mister-loverman.mp3';
   const defaultDelayBetweenLines = 2000; // ms si no hay timestamps
-  // CORRECCIÓN: Las letras se inyectan correctamente en el script.
+
+  /* === DATOS DE LA LETRA (CORRECTAMENTE COLOCADOS) === */
   const lyricsData = [
     { text: "I'm headed straight for the floor" },
     { text: "The alcohol served its tour" },
@@ -310,6 +316,9 @@
   ];
 
 
+(function(){
+  // El resto de tu lógica JavaScript se mantiene igual.
+
   /* === DOM refs === */
   const btn = document.getElementById('playBtn');
   const heartSvg = document.getElementById('heartSvg');
@@ -317,12 +326,6 @@
   const audioSrc = document.getElementById('audioSrc');
   const linesContainer = document.getElementById('linesContainer');
   const debugEl = document.getElementById('debugHint');
-  
-  // CORRECCIÓN: Si lyricsData tiene contenido, lo asignamos a window.LYRICS_DATA si aún no existe.
-  if(lyricsData && lyricsData.length > 0 && typeof window.LYRICS_DATA === 'undefined') {
-    window.LYRICS_DATA = lyricsData;
-  }
-
 
   /* --- util debug en pantalla --- */
   function showDebug(msg, isError){
@@ -350,12 +353,10 @@
   }
 
   function detectAudioSrc(){
-    // CORRECCIÓN: Prioriza la URL de anulación si está definida.
     if (RAW_GITHUB_URL_OVERRIDE && RAW_GITHUB_URL_OVERRIDE.trim().length>0) return RAW_GITHUB_URL_OVERRIDE;
-    
     if (audioSrc && audioSrc.getAttribute('data-src') && audioSrc.getAttribute('data-src').trim().length>0) return audioSrc.getAttribute('data-src');
     
-    // CORRECCIÓN: Solo si el src es una URL válida y no el placeholder "ejemplo.com"
+    // Corregido: Si la URL no es el placeholder de ejemplo.com, la usa
     if (audioSrc && audioSrc.src && audioSrc.src.trim().length>0 && !audioSrc.src.includes('ejemplo.com')) return audioSrc.src;
     
     const guess = buildRawGuess();
@@ -380,8 +381,8 @@
   /* === preparar y pintar líneas === */
   function setupLines(lines){
     linesContainer.innerHTML = '';
-    // CORRECCIÓN: Usa lyricsData si no hay nada en window.LYRICS_DATA
-    const arr = Array.isArray(lines) && lines.length ? lines : window.LYRICS_DATA || [];
+    // Ahora usa la constante lyricsData correctamente
+    const arr = Array.isArray(lines) && lines.length ? lines : lyricsData || [];
     if(!arr || arr.length===0){
       const hint = document.createElement('div');
       hint.style.opacity = .6;
@@ -450,8 +451,7 @@
     await new Promise(r=> setTimeout(r, 420));
 
     // 2) intentar reproducir audio
-    // CORRECCIÓN: Verifica si la URL del audio es válida, excluyendo el placeholder "ejemplo.com"
-    const hasAudio = audioEl && audioEl.src && audioEl.src.trim().length>0 && !audioEl.src.includes('ejemplo.com'); 
+    const hasAudio = audioEl && audioEl.src && audioEl.src.trim().length>0 && !audioEl.src.includes('ejemplo.com');
     if (hasAudio){
       // asegurarnos de tener duration; si no, esperar loadedmetadata
       if (!audioEl.duration || isNaN(audioEl.duration) || audioEl.duration === Infinity){
@@ -532,6 +532,5 @@
 
 })();
 </script>
-
 </body>
 </html>
