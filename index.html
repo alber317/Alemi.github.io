@@ -265,18 +265,206 @@
   <div id="debugHint" role="status" aria-live="polite"></div>
 
 <script>
-/* ================= CONFIG y DATOS =================
-   - Ya usé la raw URL que pegaste en el audioSrc.
-   - Aquí pego las líneas que mandaste (sin inventar el final incompleto).
-   - El script genera timestamps automáticamente si no hay 'time' en cada línea.
-*/
+/* ================= CONFIG y DATOS ================= */
+
+// URL exacta de tu archivo de música en GitHub
+const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
 const defaultDelayBetweenLines = 2000; // ms fallback
 
+// FIX SINCRONIZACIÓN: Timestamps (tiempo en segundos) añadidos para Mr. Loverman
 const lyricsData = [
-  { text: "I'm headed straight for the floor" },
-  { text: "The alcohol served its tour" },
-  { text: "And it's headed straight for my skin" },
-  { text: "Leaving me daft and dim" },
-  { text: "I've got this shake in my legs" },
-  { text: "Shaking the thoughts from my head
-::contentReference[oaicite:0]{index=0}
+  { time: 4.6, text: "I'm headed straight for the floor" },
+  { time: 8.2, text: "The alcohol served its tour" },
+  { time: 11.9, text: "And it's headed straight for my skin" },
+  { time: 15.6, text: "Leaving me daft and dim" },
+  { time: 19.3, text: "I've got this shake in my legs" },
+  { time: 23.1, text: "Shaking the thoughts from my head" },
+  { time: 26.8, text: "But who put these waves in the door?" },
+  { time: 30.5, text: "I crack and out I pour" },
+  { time: 34.3, text: "I'm Mr. Loverman" },
+  { time: 38.0, text: "And I miss my lover, man" },
+  { time: 41.7, text: "I'm Mr. Loverman" },
+  { time: 45.4, text: "Oh, and I miss my lover" },
+  { time: 49.2, text: "The ways in which you talk to me" },
+  { time: 52.9, text: "Have me wishin' I were gone" },
+  { time: 56.6, text: "The ways that you say my name" },
+  { time: 60.3, text: "Have me runnin' on and on" },
+  { time: 64.0, text: "Oh, I'm cramping up, I'm cramping up" },
+  { time: 67.8, text: "But you're cracking up, you're cracking up" },
+  { time: 71.4, text: "I'm Mr. Loverman" },
+  { time: 75.1, text: "And I miss my loverman" },
+  { time: 78.8, text: "I'm Mr. Loverman" },
+  { time: 82.5, text: "Oh, and I miss my lover" },
+  { time: 94.2, text: "I've shattered now, I'm spilling out" },
+  { time: 97.9, text: "Upon this linoleum ground (Mr. Loverman)" },
+  { time: 101.5, text: "I'm reeling in my brain again" },
+  { time: 105.3, text: "Before it can get back to you (Mr. Loverman)" },
+  { time: 109.0, text: "Oh, what am I supposed to do without you?" },
+  { time: 112.7, text: "I'm Mr. Loverman" },
+  { time: 116.4, text: "And I miss my lover, man (I miss my lover)" },
+  { time: 120.1, text: "I'm Mr. Loverman (oh-oh)" },
+  { time: 123.8, text: "Oh, and I miss my lover (Mr. Loverman)" },
+  { time: 127.5, text: "I'm Mr. Loverman" }
+];
+
+
+(function(){ // 👈 Función anónima autoejecutable
+
+  /* === DOM refs === */
+  const btn = document.getElementById('playBtn');
+  const heartSvg = document.getElementById('heartSvg');
+  const audioEl = document.getElementById('track');
+  const audioSrc = document.getElementById('audioSrc');
+  const linesContainer = document.getElementById('linesContainer');
+  const debugEl = document.getElementById('debugHint');
+  
+  /* --- util debug en pantalla --- */
+  function showDebug(msg, isError){
+    if(!debugEl) return;
+    debugEl.textContent = msg;
+    debugEl.classList.add('show');
+    debugEl.style.background = isError ? 'rgba(160,20,20,0.9)' : 'rgba(0,0,0,0.6)';
+    setTimeout(()=> debugEl.classList.remove('show'), 5000);
+    console[isError?'error':'log']('[PAGE]', msg);
+  }
+
+  /* --- configurar y cargar audio --- */
+  (function setAudio(){
+    const src = RAW_GITHUB_URL_OVERRIDE;
+    if (src && src.trim().length>0){
+      if(audioSrc){
+        audioSrc.src = src;
+        try { audioEl.load(); } catch(e){ console.warn('audio load failed', e); }
+        showDebug('Audio cargado y listo.');
+      }
+    } else {
+      showDebug('Error: URL de audio no definida.', true);
+    }
+  })();
+  
+  /* === preparar y pintar líneas === */
+  function setupLines(lines){
+    linesContainer.innerHTML = '';
+    const arr = Array.isArray(lines) && lines.length ? lines : lyricsData || [];
+    if(!arr || arr.length===0){
+      const hint = document.createElement('div');
+      hint.style.opacity = .6;
+      hint.textContent = 'Las letras no fueron cargadas.';
+      linesContainer.appendChild(hint);
+      return;
+    }
+    arr.forEach((ln, idx) => {
+      const d = document.createElement('div');
+      d.className = 'line';
+      d.dataset.idx = idx;
+      d.textContent = ln.text || '';
+      linesContainer.appendChild(d);
+    });
+  }
+  setupLines(lyricsData);
+
+  /* === animaciones y sincronización === */
+  function animateHeart(){
+    if(!heartSvg) return;
+    heartSvg.classList.remove('show');
+    void heartSvg.offsetWidth;
+    heartSvg.classList.add('show');
+  }
+
+  function revealSequentialByInterval(intervalMs){
+    const nodes = Array.from(document.querySelectorAll('.line'));
+    nodes.forEach((el, idx) => {
+      setTimeout(()=> el.classList.add('visible'), Math.max(0, Math.round(idx * intervalMs)));
+    });
+  }
+
+  let syncHandler = null;
+  function revealByTimestampsFromArray(arr){
+    // Limpia el listener anterior para evitar duplicados
+    if (syncHandler) audioEl.removeEventListener('timeupdate', syncHandler);
+    
+    document.querySelectorAll('.line').forEach(x=> x.classList.remove('visible'));
+    
+    syncHandler = function(){
+      const t = audioEl.currentTime;
+      arr.forEach((ln, idx) => {
+        if (ln.time !== undefined && t >= ln.time){
+          const el = document.querySelector('.line[data-idx="'+idx+'"]');
+          if (el && !el.classList.contains('visible')) el.classList.add('visible');
+        }
+      });
+      // Detener la sincronización cuando termina el audio
+      if (audioEl.ended) {
+        audioEl.removeEventListener('timeupdate', syncHandler);
+        syncHandler = null;
+      }
+    };
+    audioEl.addEventListener('timeupdate', syncHandler);
+  }
+
+  /* === click handler principal === */
+  if(!btn || !audioEl){ showDebug('Elementos principales (botón/audio) faltan.', true); return; }
+
+  btn.addEventListener('click', async function(){
+    btn.disabled = true;
+    btn.style.opacity = '0.85';
+
+    // 1) Animación del corazón
+    animateHeart();
+
+    await new Promise(r=> setTimeout(r, 420));
+
+    const hasValidSrc = audioEl.src && audioEl.src.trim().length > 0 && !audioEl.src.includes('ejemplo.com');
+    
+    if (hasValidSrc){
+      
+      // Esperar a que el audio esté listo
+      if (audioEl.readyState < 2){
+        await new Promise(resolve => {
+          const onMeta = ()=> { audioEl.removeEventListener('loadeddata', onMeta); resolve(); };
+          audioEl.addEventListener('loadeddata', onMeta);
+          setTimeout(resolve, 4000); // Timeout de 4 segundos
+        });
+      }
+
+      try { 
+        audioEl.currentTime = 0; // Reiniciar
+        const playPromise = audioEl.play();
+        if (playPromise !== undefined) await playPromise;
+        showDebug('Audio reproduciéndose. Letras sincronizadas.');
+        
+        // 3) Muestra las letras con los timestamps exactos
+        const arr = lyricsData;
+        const hasTimes = arr.some(x => x && x.time !== undefined);
+
+        if (hasTimes){
+          revealByTimestampsFromArray(arr);
+        } else {
+          // Fallback (No debería suceder con los datos corregidos)
+          const intervalMs = defaultDelayBetweenLines;
+          revealSequentialByInterval(intervalMs);
+        }
+
+      } catch(err){
+        console.error('Error de reproducción:', err);
+        showDebug('No se pudo reproducir audio (Autoplay bloqueado). Mostrando letras automáticas.', true);
+        // Si falla la reproducción, se muestra el texto automáticamente
+        revealSequentialByInterval(defaultDelayBetweenLines);
+      }
+
+    } else {
+      // No hay audio: solo muestra letras con retardo fijo
+      showDebug('No hay audio configurado — mostrando texto solamente.');
+      revealSequentialByInterval(defaultDelayBetweenLines);
+    }
+
+    // Re-habilita el botón (para que pueda volver a reproducir al recargar la página)
+    setTimeout(()=> { btn.disabled=false; btn.style.opacity='1'; }, 3000);
+  });
+
+  showDebug('Script cargado y listo — pulsa el botón.');
+
+})(); // 👈 CIERRE CORRECTO DE LA FUNCIÓN
+</script>
+  </body>
+</html>
