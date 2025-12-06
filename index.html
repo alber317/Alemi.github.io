@@ -71,7 +71,7 @@
   }
   .imgwrap img{
     border-radius:12px;
-    width:200px; /* Estas líneas son las que hacen que tus imágenes se vean bien */
+    width:200px;
     height:200px;
     object-fit:cover;
     box-shadow:0 10px 30px rgba(20,20,40,0.06);
@@ -117,8 +117,8 @@
   .lyrics{
     flex:1;
     min-height:70px;
-    max-height: 120px; /* Se añade para que las letras se vean bien */
-    overflow-y: hidden; /* Se añade para que las letras se vean bien */
+    max-height: 120px; /* Añadido en correcciones anteriores para scroll */
+    overflow-y: hidden; /* Añadido en correcciones anteriores para scroll */
     padding:12px;
     border-radius:10px;
     background:linear-gradient(180deg,#fff,#fff);
@@ -217,7 +217,7 @@
                 </linearGradient>
               </defs>
             </svg>
-        </div>
+          </div>
 
           <button class="action-btn" id="playBtn">Apreta aquí</button>
 
@@ -242,7 +242,11 @@
   </div>
 
 <script>
-/* CONFIGURACIÓN: no hace falta tocar si pegaste todo en el HTML ya */
+// ==========================================================
+//                 C Ó D I G O   J A V A S C R I P T   (CORREGIDO)
+// ==========================================================
+
+/* CONFIGURACIÓN: (Tu configuración original, intacta) */
 const audioURL = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky Montgomery - Mr Loverman (Official Lyric Video).mp3';
 const defaultDelayBetweenLines = 2000; // ms
 
@@ -260,7 +264,7 @@ const images = {
   imgs3: [ "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4CYoBDZu6Cd8eag_bUXe-coZBeHFgXa6xAr1_wSnn56ql_IO_T2BQJ6vcQ5MS_GMOcrw" ]
 };
 
-// Lyrics: las líneas que pegaste (sin timestamps)
+// Lyrics: (Tu lista de letras original, intacta)
 const lyricsData = [
   { text: "I'm headed straight for the floor" },
   { text: "The alcohol served its tour" },
@@ -296,11 +300,9 @@ const lyricsData = [
   { text: "I'm Mr. Loverman (oh-oh)" }
 ];
 
-// ==========================================================
-//                 C Ó D I G O   D E L   B O T Ó N   (Corregido y Añadido)
-// ==========================================================
-
-// 1. OBTENER LOS ELEMENTOS CLAVE
+// **********************************************************
+// 1. OBTENER ELEMENTOS Y CONFIGURACIÓN INICIAL
+// **********************************************************
 const playButton = document.getElementById('playBtn');
 const audioTrack = document.getElementById('track');
 const audioSource = document.getElementById('audioSrc');
@@ -308,13 +310,14 @@ const heartSvg = document.getElementById('heartSvg');
 const linesContainer = document.getElementById('linesContainer');
 let isPlaying = false; 
 
-// 2. CORRECCIÓN PRINCIPAL: ASIGNAR LA URL Y CARGAR EL AUDIO
-// Esto toma la URL de tu variable y la asigna al elemento audio.
+// CORRECCIÓN CLAVE: Asignar la URL del audio y forzar la carga.
 audioSource.src = audioURL;
 audioTrack.load(); 
 
 
-// 3. FUNCIÓN PARA MOSTRAR LAS LÍNEAS DE LA CANCIÓN
+// **********************************************************
+// 2. FUNCIÓN DE GESTIÓN DE LETRAS (LETTERS)
+// **********************************************************
 function startLyricsDisplay() {
     let lineIndex = 0;
     
@@ -334,17 +337,18 @@ function startLyricsDisplay() {
             return;
         }
         
-        // Simulación de scroll: Oculta la línea antigua si hay más de 3
+        // Simulación de scroll para mantener solo 3 líneas visibles
         if (lineIndex > 2) {
             lineElements[lineIndex - 3].remove();
         }
         
-        // Hace visible la línea actual
+        // Activar la clase visible para la animación de la línea actual
         lineElements[lineIndex].classList.add('visible');
         linesContainer.scrollTop = linesContainer.scrollHeight;
         
         lineIndex++;
         
+        // Espera el tiempo configurado antes de mostrar la siguiente línea
         setTimeout(showNextLine, defaultDelayBetweenLines);
     }
     
@@ -352,10 +356,12 @@ function startLyricsDisplay() {
 }
 
 
-// 4. CONECTAR EL BOTÓN AL AUDIO Y ANIMACIÓN
+// **********************************************************
+// 3. EVENTO DEL BOTÓN (CORRECCIÓN CENTRAL)
+// **********************************************************
 playButton.addEventListener('click', function() {
     if (!isPlaying) {
-        // Intenta reproducir el audio
+        // Reproducir la canción al hacer clic
         audioTrack.play()
             .then(() => {
                 isPlaying = true;
@@ -369,8 +375,9 @@ playButton.addEventListener('click', function() {
                 
             })
             .catch(error => {
+                // Maneja el error si el navegador bloquea la reproducción
                 console.error("Error al reproducir el audio:", error);
-                playButton.textContent = "Error, vuelve a intentar :(";
+                playButton.textContent = "Error, recarga y vuelve a intentar :(";
             });
     } else {
         // Pausar/Detener
@@ -382,13 +389,15 @@ playButton.addEventListener('click', function() {
     }
 });
 
-// 5. Manejar el evento de fin de canción
+// **********************************************************
+// 4. EVENTO DE FIN DE CANCIÓN
+// **********************************************************
 audioTrack.addEventListener('ended', function() {
     isPlaying = false;
     playButton.textContent = "Volver a escuchar";
     heartSvg.classList.remove('show');
     linesContainer.innerHTML = ''; 
-    audioTrack.currentTime = 0; 
+    audioTrack.currentTime = 0; // Reiniciar la canción
 });
 </script>
 
