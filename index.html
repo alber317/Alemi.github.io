@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-/* --- ESTILOS CSS: Mantengo tu CSS original, es robusto y funciona bien. --- */
   :root{
     --bg:#FFF8FB;
     --card:#ffffff;
@@ -149,9 +148,13 @@
   footer{ padding:16px; font-size:13px; color:var(--muted); border-top:1px solid #f3eef3; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
 
   @media (max-width:760px){
-    .imgwrap img{ width:48%; height:140px; }
+    .imgwrap img{ width:48%; height:140px; **max-width:100%;** /* Asegura que la imagen no se desborde */ }
     .heart{ width:56px; height:56px; }
     .heart svg{ width:44px; height:44px; }
+  }
+  /* Agregado para que las imágenes individuales grandes se ajusten en móviles */
+  @media (max-width:480px) {
+    .imgwrap img:only-child { width:100%; height:auto; }
   }
 
   @keyframes heart-pop {
@@ -187,7 +190,7 @@
 
       <section class="block">
         <div class="text" id="para1">
-          Nunca creí encontrar una persona con la cual puedo llegar a ser yo mismo sin sentir pena o vergüenza, pues de todas las casualidades del Universo, la mejor fue coincidir **contigo**, y nosotros siempre seremos como:
+          Nunca creí encontrar una persona con la cual puedo llegar a ser yo mismo sin sentir pena o vergüenza pues de todas las casualidades del Universo, la mejor fue coincidir **contigo**, y nosotros siempre seremos como:
         </div>
       </section>
 
@@ -199,7 +202,7 @@
 
       <section class="block">
         <div class="text" id="para2">
-          A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mí eres muy importante y no puedo imaginar mi día **a** día sin hablar contigo.
+          A pesar de los problemas o peleas nunca nos dejamos de hablar porque para mi eres muy importante y no puedo imaginar mi día **a** día sin hablar contigo
         </div>
       </section>
 
@@ -212,9 +215,9 @@
 
       <section class="block">
         <div class="text" id="para3">
-          Aunque aún me falte mucho más que aprender o conocer sobre ti, siempre me **encantará** la idea de saber las cosas que te hacen reír, llorar, las cosas que te preocupan, tus problemas, tus sueños, y mucho más.
+          Aunque aun me falte mucho mas que aprender o conocer sobre ti, siempre me **encantará** la idea de saber las cosas que te hacen reir, llorar, las cosas que te preocupan, tus problemas, tus sueños, y mucho mas
           <br><br>
-          Espero que en este nuevo año sigamos hablando como siempre, y nunca separarnos por un **2026** lleno de nuevas Historias.
+          Espero que en este nuevo año sigamos hablando como siempre, y nunca separarnos por un 2026 lleno de nuevas Historias
         </div>
       </section>
 
@@ -246,7 +249,7 @@
         </div>
 
         <audio id="track" preload="metadata">
-          <source id="audioSrc" src="https://ejemplo.com/mister-loverman.mp3" type="audio/mpeg">
+                    <source id="audioSrc" src="https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3" type="audio/mpeg">
           Tu navegador no soporta reproducción de audio.
         </audio>
 
@@ -263,19 +266,14 @@
   <div id="debugHint" role="status" aria-live="polite"></div>
 
 <script>
-  /* ---------------------------------------------------- */
-  /* --- CONFIGURACIÓN Y DATOS DE LAS LETRAS (CORREGIDO) --- */
-  /* ---------------------------------------------------- */
-  // Pega raw URL del mp3 en RAW_GITHUB_URL_OVERRIDE si prefieres: (he puesto tu URL con espacios codificados)
+  
+(function(){
+  
+  /* --- CONFIG: Aquí he puesto tu URL y la letra para que el script la lea --- */
   const RAW_GITHUB_URL_OVERRIDE = 'https://raw.githubusercontent.com/alber317/Alemi.github.io/main/Ricky%20Montgomery%20-%20Mr%20Loverman%20(Official%20Lyric%20Video).mp3';
-
-  // si subiste el mp3 al repo en la raíz con otro nombre, ponlo aquí
   const DEFAULT_AUDIO_FILENAME = 'mister-loverman.mp3';
-
-  // retardo entre líneas si no usás timestamps (ms)
-  const defaultDelayBetweenLines = 2000;
-
-  // LETRAS (si querés timestamps, añadilos en cada objeto como time: segundos)
+  const defaultDelayBetweenLines = 2000; // ms si no hay timestamps
+  // CORRECCIÓN: Las letras se inyectan correctamente en el script.
   const lyricsData = [
     { text: "I'm headed straight for the floor" },
     { text: "The alcohol served its tour" },
@@ -310,13 +308,7 @@
     { text: "Oh, and I miss my lover (Mr. Loverman)" },
     { text: "I'm Mr. Loverman" }
   ];
-  /* ---------------------------------------------------- */
-  /* --- LÓGICA JS (Tu lógica original, ahora usando las variables definidas arriba) --- */
-  /* ---------------------------------------------------- */
 
-(function(){
-  // El código JavaScript de la lógica principal se mantiene intacto,
-  // pero ahora accede a las constantes definidas justo arriba.
 
   /* === DOM refs === */
   const btn = document.getElementById('playBtn');
@@ -325,11 +317,12 @@
   const audioSrc = document.getElementById('audioSrc');
   const linesContainer = document.getElementById('linesContainer');
   const debugEl = document.getElementById('debugHint');
-
-  // Aseguramos que 'window.LYRICS_DATA' apunte a la variable local para que el código lo use si es necesario (aunque tu código usa lyricsData directamente)
-  if (typeof window.LYRICS_DATA === 'undefined') {
+  
+  // CORRECCIÓN: Si lyricsData tiene contenido, lo asignamos a window.LYRICS_DATA si aún no existe.
+  if(lyricsData && lyricsData.length > 0 && typeof window.LYRICS_DATA === 'undefined') {
     window.LYRICS_DATA = lyricsData;
   }
+
 
   /* --- util debug en pantalla --- */
   function showDebug(msg, isError){
@@ -357,9 +350,14 @@
   }
 
   function detectAudioSrc(){
+    // CORRECCIÓN: Prioriza la URL de anulación si está definida.
     if (RAW_GITHUB_URL_OVERRIDE && RAW_GITHUB_URL_OVERRIDE.trim().length>0) return RAW_GITHUB_URL_OVERRIDE;
+    
     if (audioSrc && audioSrc.getAttribute('data-src') && audioSrc.getAttribute('data-src').trim().length>0) return audioSrc.getAttribute('data-src');
+    
+    // CORRECCIÓN: Solo si el src es una URL válida y no el placeholder "ejemplo.com"
     if (audioSrc && audioSrc.src && audioSrc.src.trim().length>0 && !audioSrc.src.includes('ejemplo.com')) return audioSrc.src;
+    
     const guess = buildRawGuess();
     if (guess) return guess;
     return '';
@@ -382,6 +380,7 @@
   /* === preparar y pintar líneas === */
   function setupLines(lines){
     linesContainer.innerHTML = '';
+    // CORRECCIÓN: Usa lyricsData si no hay nada en window.LYRICS_DATA
     const arr = Array.isArray(lines) && lines.length ? lines : window.LYRICS_DATA || [];
     if(!arr || arr.length===0){
       const hint = document.createElement('div');
@@ -451,7 +450,8 @@
     await new Promise(r=> setTimeout(r, 420));
 
     // 2) intentar reproducir audio
-    const hasAudio = audioEl && audioEl.src && audioEl.src.trim().length>0 && !audioEl.src.includes('ejemplo.com');
+    // CORRECCIÓN: Verifica si la URL del audio es válida, excluyendo el placeholder "ejemplo.com"
+    const hasAudio = audioEl && audioEl.src && audioEl.src.trim().length>0 && !audioEl.src.includes('ejemplo.com'); 
     if (hasAudio){
       // asegurarnos de tener duration; si no, esperar loadedmetadata
       if (!audioEl.duration || isNaN(audioEl.duration) || audioEl.duration === Infinity){
@@ -532,5 +532,6 @@
 
 })();
 </script>
+
 </body>
 </html>
